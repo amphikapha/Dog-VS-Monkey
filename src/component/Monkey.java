@@ -1,5 +1,6 @@
 package component;
 
+import app.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -8,7 +9,7 @@ import java.util.List;
 public class Monkey extends GameObject {
     private static final int WIDTH = 20;
     private static final int HEIGHT = 20;
-    private static final double SPEED = 5;
+    private static final double SPEED = 4.5;
     private boolean hasMovedLeft;
     private boolean hasMovedRight;
     private boolean hasMovedForward;
@@ -22,21 +23,21 @@ public class Monkey extends GameObject {
 
     @Override
     public void move() {
-//        if (hasMovedLeft && x - SPEED > 0) {
-//            x -= SPEED;
-//        }
-//
-//        if (hasMovedRight && x + width + SPEED < SpaceShooter.WIDTH) {
-//            x += SPEED;
-//        }
-//
-//        if (hasMovedForward && y - SPEED > 0) {
-//            y -= SPEED;
-//        }
-//
-//        if (hasMovedBackward && y + height + SPEED < SpaceShooter.HEIGHT) {
-//            y += SPEED;
-//        }
+        if (isHasMovedLeft() && getX() - SPEED > 0) {
+            setX(getX() - SPEED);
+        }
+
+        if (isHasMovedRight() && getX() + getWidth() + SPEED < Main.WIDTH) {
+            setX(getX() + SPEED);
+        }
+
+        if (isHasMovedForward() && getY() - SPEED > 0) {
+            setY(getY() - SPEED);
+        }
+
+        if (isHasMovedBackward() && getY() + getHeight() + SPEED < Main.HEIGHT) {
+            setY(getY() + SPEED);
+        }
     }
 
     @Override
