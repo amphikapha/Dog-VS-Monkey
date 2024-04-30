@@ -11,7 +11,7 @@ import java.util.List;
 public class Monkey extends GameObject {
     private static final int WIDTH = 40;
     private static final int HEIGHT = 40;
-    private static final double SPEED = 4.5;
+    private static final double SPEED = 3.5;
     private boolean hasMovedLeft;
     private boolean hasMovedRight;
     private boolean hasMovedForward;

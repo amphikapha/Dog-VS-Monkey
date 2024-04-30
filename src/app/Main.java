@@ -50,7 +50,7 @@ public class Main extends Application {
     private boolean levelUpShown = false;
 
     private Stage primaryStage;
-    public MediaPlayer menuSound;
+//    public MediaPlayer menuSound;
 
     public static void main(String[] args) {
         launch(args);
@@ -63,7 +63,7 @@ public class Main extends Application {
         primaryStage.setTitle("Space Shooter");
         primaryStage.setResizable(false);
 
-        playMenuSound();
+//        playMenuSound();
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         scoreLabel.setTranslateX(10);
@@ -74,7 +74,7 @@ public class Main extends Application {
         lifeLabel.setTranslateX(10);
         lifeLabel.setTranslateY(40);
         lifeLabel.setTextFill(Color.BLACK);
-        lifeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        lifeLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 18));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gameObjects.add(monkey);
         Pane menuPane = createMenu();
@@ -472,12 +472,12 @@ public class Main extends Application {
         primaryStage.setScene(scene);
     }
 
-    public void playMenuSound() {
-        String s = "res/sound/sneaking-out_by_victor-cooper.mp3";
-        Media menuSoundFile = new Media(Paths.get(s).toUri().toString());
-        menuSound = new MediaPlayer(menuSoundFile);
-        menuSound.setCycleCount(MediaPlayer.INDEFINITE);
-        menuSound.setVolume(0.5);
-        menuSound.play();
-    }
+//    public void playMenuSound() {
+//        String s = "res/sound/sneaking-out_by_victor-cooper.mp3";
+//        Media menuSoundFile = new Media(Paths.get(s).toUri().toString());
+//        menuSound = new MediaPlayer(menuSoundFile);
+//        menuSound.setCycleCount(MediaPlayer.INDEFINITE);
+//        menuSound.setVolume(0.5);
+//        menuSound.play();
+//    }
 }
