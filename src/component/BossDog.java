@@ -1,6 +1,7 @@
 package component;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class BossDog extends Dog {
@@ -8,26 +9,30 @@ public class BossDog extends Dog {
 
     protected static final int WIDTH = 50;
     protected static final int HEIGHT = 50;
-    public static final double SPEED = 1.0;
+    public static final double SPEED = 0.5;
 
     private int numHits = 5;
+    private Image bossDogImage;
 
     public BossDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
         setHealth(5);
+        setBossDogImage(new Image(getClass().getResource("/pic/monkey_head.png").toExternalForm()));
     }
 
     @Override
     public void move() {
-        if (getY() < 40) {
-            setY(getY() + SPEED);
-        }
+//        if (getY() < 40) {
+//            setY(getY() + SPEED);
+//        }
+        setY(getY() + SPEED);
     }
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.BLUE);
-        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH * 2, HEIGHT * 2);
+//        gc.setFill(Color.BLUE);
+//        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH * 2, HEIGHT * 2);
+        gc.drawImage(getBossDogImage(), x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 
     public void takeDamage() {
@@ -65,5 +70,13 @@ public class BossDog extends Dog {
 
     public void setNumHits(int numHits) {
         this.numHits = numHits;
+    }
+
+    public Image getBossDogImage() {
+        return bossDogImage;
+    }
+
+    public void setBossDogImage(Image bossDogImage) {
+        this.bossDogImage = bossDogImage;
     }
 }
