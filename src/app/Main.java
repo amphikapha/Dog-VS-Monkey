@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -131,6 +132,17 @@ public class Main extends Application {
                         iterator.remove();
                     }
                 }
+
+                Image backgroundImage = new Image(getClass().getResource("/pic/bg_game.png").toExternalForm());
+
+                // Draw the image that covers the entire canvas
+                gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);
+
+                for (GameObject obj : gameObjects) {
+                    obj.move();
+                    obj.render(gc);
+                }
+
             }
 
 
@@ -359,13 +371,13 @@ public class Main extends Application {
 
     private Pane createMenu() {
         Pane menuPane = new Pane();
-        menuPane.setStyle("-fx-background-color: black;");
+        menuPane.setStyle("-fx-background-image: url('" + getClass().getResource("/pic/bg_menu.png").toExternalForm() + "');");
 
-        Text welcomeText = new Text("   Welcome to \nDog VS Monkey!");
-        welcomeText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-        welcomeText.setFill(Color.WHITE);
-        welcomeText.setX((WIDTH - welcomeText.getLayoutBounds().getWidth()) / 2);
-        welcomeText.setY(100); // Move welcome message higher on the screen
+//        Text welcomeText = new Text("   Welcome to \nDog VS Monkey!");
+//        welcomeText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+//        welcomeText.setFill(Color.WHITE);
+//        welcomeText.setX((WIDTH - welcomeText.getLayoutBounds().getWidth()) / 2);
+//        welcomeText.setY(100); // Move welcome message higher on the screen
 
         Button startButton = createButton("START", 200);
         startButton.setOnAction(event -> startGame());
@@ -401,7 +413,7 @@ public class Main extends Application {
         buttonsContainer.setLayoutY(200);
         buttonsContainer.getChildren().addAll(startButton, instructionsButton, quitButton, contributorButton);
 
-        menuPane.getChildren().addAll(welcomeText, buttonsContainer);
+        menuPane.getChildren().addAll(buttonsContainer);
 
         return menuPane;
     }

@@ -1,18 +1,19 @@
 package component;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class SmallDog extends Dog {
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 20;
-
-    private static final double SPEED = 2;
-
+    public static final int WIDTH = 30;
+    public static final int HEIGHT = 30;
+    private static final double SPEED = 1;
     private boolean isDead = false;
+    private Image smallDogImage;
 
     public SmallDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
+        setSmallDogImage(new Image(getClass().getResource("/pic/smallDog.png").toExternalForm()));
     }
 
     @Override
@@ -22,8 +23,9 @@ public class SmallDog extends Dog {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
-        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+//        gc.setFill(Color.GREEN);
+//        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+        gc.drawImage(getSmallDogImage(), x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 
     @Override
@@ -43,5 +45,13 @@ public class SmallDog extends Dog {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public Image getSmallDogImage() {
+        return smallDogImage;
+    }
+
+    public void setSmallDogImage(Image smallDogImage) {
+        this.smallDogImage = smallDogImage;
     }
 }

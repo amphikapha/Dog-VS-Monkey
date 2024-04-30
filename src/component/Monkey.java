@@ -3,12 +3,14 @@ package component;
 import app.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
 
 import java.util.List;
 
 public class Monkey extends GameObject {
-    private static final int WIDTH = 20;
-    private static final int HEIGHT = 20;
+    private static final int WIDTH = 40;
+    private static final int HEIGHT = 40;
     private static final double SPEED = 4.5;
     private boolean hasMovedLeft;
     private boolean hasMovedRight;
@@ -17,8 +19,11 @@ public class Monkey extends GameObject {
     private int health = 20;
     private boolean isDead = false;
 
+    private Image monkeyImage;
+
     public Monkey(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
+        setMonkeyImage(new Image(getClass().getResource("/pic/monkey_head.png").toExternalForm()));
     }
 
     @Override
@@ -42,8 +47,10 @@ public class Monkey extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.BLUE);
-        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+//        gc.setFill(Color.BLUE);
+//        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+
+        gc.drawImage(getMonkeyImage(), x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 
     public void shoot(List<GameObject> newObjects) {
@@ -108,5 +115,13 @@ public class Monkey extends GameObject {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public Image getMonkeyImage() {
+        return monkeyImage;
+    }
+
+    public void setMonkeyImage(Image monkeyImage) {
+        this.monkeyImage = monkeyImage;
     }
 }
