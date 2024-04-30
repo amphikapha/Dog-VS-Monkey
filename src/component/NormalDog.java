@@ -4,17 +4,23 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.Random;
+
 public class NormalDog extends Dog {
     protected static final int WIDTH = 40;
     protected static final int HEIGHT = 40;
     public static final double SPEED = 1;
     private boolean isDead = false;
     private Image normalDogImage;
+    private static final String[] imagePaths = {"/pic/normalDog01.png", "/pic/normalDog02.png", "/pic/normalDog03.png"};
+    private static final Random random = new Random();
 
     public NormalDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
-//        setMonkeyImage(new Image(getClass().getResource("/pic/monkey_head.png").toExternalForm()));
-        setNormalDogImage(new Image(getClass().getResource("/pic/normalDog01.png").toExternalForm()));
+//        setNormalDogImage(new Image(getClass().getResource("/pic/normalDog01.png").toExternalForm()));
+
+        String imagePath = imagePaths[random.nextInt(imagePaths.length)];
+        setNormalDogImage(new Image(getClass().getResource(imagePath).toExternalForm()));
     }
 
     @Override
