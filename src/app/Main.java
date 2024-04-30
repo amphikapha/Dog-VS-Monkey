@@ -139,7 +139,7 @@ public class Main extends Application {
                     }
                 }
 
-                Image backgroundImage = new Image(getClass().getResource("/pic/bg_game.png").toExternalForm());
+                Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
 
                 // Draw the image that covers the entire canvas
                 gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);

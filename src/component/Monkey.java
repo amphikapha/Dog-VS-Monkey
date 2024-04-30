@@ -23,33 +23,27 @@ public class Monkey extends GameObject {
 
     public Monkey(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
-        setMonkeyImage(new Image(getClass().getResource("/pic/monkey_head.png").toExternalForm()));
+        setMonkeyImage(new Image(getClass().getResource("/pic/monkey_head_red.png").toExternalForm()));
     }
 
     @Override
     public void move() {
-        if (isHasMovedLeft() && getX() - SPEED > 0) {
+        if (hasMovedLeft && x - WIDTH / 2 > 0) {
             setX(getX() - SPEED);
         }
-
-        if (isHasMovedRight() && getX() + getWidth() + SPEED < Main.WIDTH) {
+        if (hasMovedRight && x + WIDTH / 2 < Main.WIDTH) {
             setX(getX() + SPEED);
         }
-
-        if (isHasMovedForward() && getY() - SPEED > 0) {
+        if (hasMovedForward && y - HEIGHT / 2 > 0) {
             setY(getY() - SPEED);
         }
-
-        if (isHasMovedBackward() && getY() + getHeight() + SPEED < Main.HEIGHT) {
+        if (hasMovedBackward && y + HEIGHT / 2 < Main.HEIGHT) {
             setY(getY() + SPEED);
         }
     }
 
     @Override
     public void render(GraphicsContext gc) {
-//        gc.setFill(Color.BLUE);
-//        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
-
         gc.drawImage(getMonkeyImage(), x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 

@@ -17,7 +17,7 @@ public class BossDog extends Dog {
     public BossDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
         setHealth(5);
-        setBossDogImage(new Image(getClass().getResource("/pic/monkey_head.png").toExternalForm()));
+        setBossDogImage(new Image(getClass().getResource("/pic/monkey_head_green.png").toExternalForm()));
     }
 
     @Override
