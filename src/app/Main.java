@@ -20,7 +20,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +50,7 @@ public class Main extends Application {
     private boolean levelUpShown = false;
 
     private Stage primaryStage;
+    public MediaPlayer menuSound;
 
     public static void main(String[] args) {
         launch(args);
@@ -58,6 +62,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Space Shooter");
         primaryStage.setResizable(false);
+
+        playMenuSound();
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         scoreLabel.setTranslateX(10);
@@ -373,6 +379,10 @@ public class Main extends Application {
         Pane menuPane = new Pane();
         menuPane.setStyle("-fx-background-image: url('" + getClass().getResource("/pic/bg_menu.png").toExternalForm() + "');");
 
+//        Media sound = new Media(getClass().getResource("sound/sneaking-out_by_victor-cooper.mp3").toExternalForm());
+//        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//        mediaPlayer.play();
+
 //        Text welcomeText = new Text("   Welcome to \nDog VS Monkey!");
 //        welcomeText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
 //        welcomeText.setFill(Color.WHITE);
@@ -458,9 +468,16 @@ public class Main extends Application {
         pause.setOnFinished(event -> root.getChildren().remove(tempMessage));
         pause.play();
     }
-
-
     private void startGame() {
         primaryStage.setScene(scene);
+    }
+
+    public void playMenuSound() {
+        String s = "res/sound/sneaking-out_by_victor-cooper.mp3";
+        Media menuSoundFile = new Media(Paths.get(s).toUri().toString());
+        menuSound = new MediaPlayer(menuSoundFile);
+        menuSound.setCycleCount(MediaPlayer.INDEFINITE);
+        menuSound.setVolume(0.5);
+        menuSound.play();
     }
 }
