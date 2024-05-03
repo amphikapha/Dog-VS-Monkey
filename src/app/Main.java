@@ -64,7 +64,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
 
 //        playMenuSound();
-        playBackgroundMusic();
+        playBackgroundMusic("res/sound/mainsong.mp3");
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         scoreLabel.setTranslateX(10);
@@ -494,7 +494,23 @@ public class Main extends Application {
         pause.play();
     }
     private void startGame() {
+        // Stop the current background music
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+        }
+
+        // Play the new background music
+        playBackgroundMusic("res/sound/playsong.mp3");
+
         primaryStage.setScene(scene);
+    }
+
+    private void playBackgroundMusic(String musicFile) {
+        // path to the music file
+        Media sound = new Media(Paths.get(musicFile).toUri().toString());
+        backgroundMusic = new MediaPlayer(sound);
+        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE); // loop indefinitely
+        backgroundMusic.play();
     }
 
 //    public void playMenuSound() {
