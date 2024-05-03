@@ -33,6 +33,11 @@ public class Main extends Application {
     public static final int WIDTH = 300;
     public static final int HEIGHT = 600;
     public static int numLives = 400;
+
+    private AnimationTimer gameLoop;
+
+    private boolean isRunning = false;
+    private Button pauseButton;
     private int score = 0;
     private boolean bossExists = false;
     private boolean reset = false;
@@ -64,7 +69,6 @@ public class Main extends Application {
         primaryStage.setResizable(false);
 
 
-
 //        playMenuSound();
         playBackgroundMusic("res/sound/mainsong.mp3");
 
@@ -87,7 +91,8 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         initEventHandlers(scene);
 
-        AnimationTimer gameLoop = new AnimationTimer() {
+
+        gameLoop = new AnimationTimer() {
             private long lastEnemySpawned = 0;
 
             private long lastPowerUpSpawned = 0;
@@ -157,7 +162,42 @@ public class Main extends Application {
 
         };
 
+        pauseButton = new Button("Pause");
+        pauseButton.setLayoutX(230); // Position the button at the left of the screen
+        pauseButton.setLayoutY(10); // Position the button at the top of the screen
+
+        Button backButton = new Button("Back");
+        backButton.setLayoutX(160);
+        backButton.setLayoutY(10); // Position the button at the bottom of the pane
+        backButton.setOnAction(event -> primaryStage.setScene(menuScene));
+
+        // ********** this for exit =w=
+//        quitButton.setOnAction(event -> System.exit(0));
+
+
+        pauseButton.setOnAction(event -> {
+            if (isRunning) {
+                gameLoop.stop();
+                if (backgroundMusic != null) {
+                    backgroundMusic.pause();
+                }
+                pauseButton.setText("Resume");
+                isRunning = false;
+            } else {
+                gameLoop.start();
+                if (backgroundMusic != null) {
+                    backgroundMusic.play();
+                }
+                pauseButton.setText("Pause");
+                isRunning = true;
+            }
+        });
+
+        root.getChildren().add(pauseButton);
+        root.getChildren().add(backButton);
+
         gameLoop.start();
+        isRunning = true;
 
         primaryStage.show();
     }
@@ -427,23 +467,7 @@ public class Main extends Application {
 
         // Create a Contributor button
         Button contributorButton = createButton("Contributor", 500);
-        contributorButton.setOnAction(event -> {
-            // Create a new Stage for the new page
-            Stage newStage = new Stage();
-            newStage.setTitle("Contributor");
-
-            // Create a Label to display the name of the contributor
-            Label label = new Label("Name of Contributor");
-            label.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-
-            // Create a new Scene with the Label and Hyperlink
-            VBox vbox = new VBox(10, label);
-            Scene newScene = new Scene(vbox, 300, 200);
-            newStage.setScene(newScene);
-
-            // Show the new Stage
-            newStage.show();
-        });
+        contributorButton.setOnAction(event -> showContributor());
 
         VBox buttonsContainer = new VBox(20); // Add buttons container to center-align the buttons
         buttonsContainer.setLayoutX((WIDTH - startButton.getPrefWidth()) / 2 - 100);
@@ -472,19 +496,45 @@ public class Main extends Application {
         return button;
     }
 
+    private void showContributor() {
+        // Create a new Pane for the contributor
+        Pane contributorPane = new Pane();
+
+        // Create a Label with the contributor information
+        Label contributorLabel = new Label("Contributor: AnAn JoJo MyMy");
+        contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        contributorLabel.setLayoutX(0); // Position the label at the left of the pane
+        contributorLabel.setLayoutY(0); // Position the label at the top of the pane
+
+        // Create a "Back" button
+        Button backButton = new Button("Back");
+        backButton.setLayoutX(0);
+        backButton.setLayoutY(HEIGHT - 50); // Position the button at the bottom of the pane
+        backButton.setOnAction(event -> primaryStage.setScene(menuScene));
+
+        // Add the Label and the "Back" button to the Pane
+        contributorPane.getChildren().addAll(contributorLabel, backButton);
+
+        // Create a new Scene for the contributor
+        Scene contributorScene = new Scene(contributorPane, WIDTH, HEIGHT);
+
+        // Switch to the contributor Scene
+        primaryStage.setScene(contributorScene);
+    }
+
     private void showInstructions() {
         // Create a new Pane for the instructions
         Pane instructionsPane = new Pane();
 
         // Create a Label with the instructions
-        Label instructionsLabel = new Label("Hello World");
+        Label instructionsLabel = new Label("Hello world");
         instructionsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        instructionsLabel.setLayoutX((WIDTH - instructionsLabel.getPrefWidth()) / 2);
-        instructionsLabel.setLayoutY((HEIGHT - instructionsLabel.getPrefHeight()) / 2);
+        instructionsLabel.setLayoutX(0); // Position the label at the left of the pane
+        instructionsLabel.setLayoutY(0); // Position the label at the top of the pane
 
         // Create a "Back" button
         Button backButton = new Button("Back");
-        backButton.setLayoutX((WIDTH - backButton.getPrefWidth()) / 2);
+        backButton.setLayoutX(0);
         backButton.setLayoutY(HEIGHT - 50); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
