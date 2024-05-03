@@ -48,7 +48,7 @@ public class Main extends Application {
 
     private Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
     private boolean levelUpShown = false;
-
+    private Scene menuScene; // Make menuScene a class member
     private Stage primaryStage;
 //    public MediaPlayer menuSound;
     private MediaPlayer backgroundMusic;
@@ -62,6 +62,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Space Shooter");
         primaryStage.setResizable(false);
+
+
 
 //        playMenuSound();
         playBackgroundMusic("res/sound/mainsong.mp3");
@@ -79,7 +81,7 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gameObjects.add(monkey);
         Pane menuPane = createMenu();
-        Scene menuScene = new Scene(menuPane, WIDTH, HEIGHT);
+        menuScene = new Scene(menuPane, WIDTH, HEIGHT);
         primaryStage.setScene(menuScene);
         primaryStage.setTitle("Dog VS Monkey");
         primaryStage.setResizable(false);
@@ -471,14 +473,29 @@ public class Main extends Application {
     }
 
     private void showInstructions() {
-        Alert instructionsAlert = new Alert(Alert.AlertType.INFORMATION);
-        instructionsAlert.setTitle("Instructions");
-        instructionsAlert.setHeaderText("Dog VS Monkey Instructions");
-        instructionsAlert.setContentText("Use the A, W, S, and D keys or the arrow keys to move your monkey.\n" +
-                "Press SPACE to shoot bullets and destroy the dogs.\n" +
-                "If a dog reaches the bottom of the screen, you lose a life.\n" +
-                "The game resets if you lose all lives.");
-        instructionsAlert.showAndWait();
+        // Create a new Pane for the instructions
+        Pane instructionsPane = new Pane();
+
+        // Create a Label with the instructions
+        Label instructionsLabel = new Label("Hello World");
+        instructionsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        instructionsLabel.setLayoutX((WIDTH - instructionsLabel.getPrefWidth()) / 2);
+        instructionsLabel.setLayoutY((HEIGHT - instructionsLabel.getPrefHeight()) / 2);
+
+        // Create a "Back" button
+        Button backButton = new Button("Back");
+        backButton.setLayoutX((WIDTH - backButton.getPrefWidth()) / 2);
+        backButton.setLayoutY(HEIGHT - 50); // Position the button at the bottom of the pane
+        backButton.setOnAction(event -> primaryStage.setScene(menuScene));
+
+        // Add the Label and the "Back" button to the Pane
+        instructionsPane.getChildren().addAll(instructionsLabel, backButton);
+
+        // Create a new Scene for the instructions
+        Scene instructionsScene = new Scene(instructionsPane, WIDTH, HEIGHT);
+
+        // Switch to the instructions Scene
+        primaryStage.setScene(instructionsScene);
     }
 
     private void showTempMessage(String message, double x, double y, double duration) {
