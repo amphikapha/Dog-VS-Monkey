@@ -32,7 +32,7 @@ import java.util.Random;
 public class Main extends Application {
     public static final int WIDTH = 300;
     public static final int HEIGHT = 600;
-    public static int numLives = 300;
+    public static int numLives = 400;
     private int score = 0;
     private boolean bossExists = false;
     private boolean reset = false;
