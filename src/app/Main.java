@@ -51,7 +51,7 @@ public class Main extends Application {
 
     private Stage primaryStage;
 //    public MediaPlayer menuSound;
-
+    private MediaPlayer backgroundMusic;
     public static void main(String[] args) {
         launch(args);
     }
@@ -64,6 +64,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
 
 //        playMenuSound();
+        playBackgroundMusic();
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         scoreLabel.setTranslateX(10);
@@ -157,6 +158,15 @@ public class Main extends Application {
         gameLoop.start();
 
         primaryStage.show();
+    }
+
+
+    private void playBackgroundMusic() {
+        String musicFile = "res/sound/mainsong.mp3"; // path to the music file
+        Media sound = new Media(Paths.get(musicFile).toUri().toString());
+        backgroundMusic = new MediaPlayer(sound);
+        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE); // loop indefinitely
+        backgroundMusic.play();
     }
 
     private void spawnEnemy() {
