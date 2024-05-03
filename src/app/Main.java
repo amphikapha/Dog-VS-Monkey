@@ -169,7 +169,14 @@ public class Main extends Application {
         Button backButton = new Button("Back");
         backButton.setLayoutX(160);
         backButton.setLayoutY(10); // Position the button at the bottom of the pane
-        backButton.setOnAction(event -> primaryStage.setScene(menuScene));
+        backButton.setOnAction(event -> {
+                    primaryStage.setScene(menuScene);
+                    numLives = 400; // Reset numLives to 400
+                    score = 0; // Reset score to 0
+                    lifeLabel.setText("Lives: " + numLives);
+                    scoreLabel.setText("Score: " + score);
+                }
+        );
 
         // ********** this for exit =w=
 //        quitButton.setOnAction(event -> System.exit(0));
@@ -182,6 +189,7 @@ public class Main extends Application {
                     backgroundMusic.pause();
                 }
                 pauseButton.setText("Resume");
+                root.requestFocus();
                 isRunning = false;
             } else {
                 gameLoop.start();
@@ -189,6 +197,7 @@ public class Main extends Application {
                     backgroundMusic.play();
                 }
                 pauseButton.setText("Pause");
+                root.requestFocus();
                 isRunning = true;
             }
         });
@@ -197,6 +206,7 @@ public class Main extends Application {
         root.getChildren().add(backButton);
 
         gameLoop.start();
+        root.requestFocus();
         isRunning = true;
 
         primaryStage.show();
@@ -525,6 +535,21 @@ public class Main extends Application {
     private void showInstructions() {
         // Create a new Pane for the instructions
         Pane instructionsPane = new Pane();
+
+
+//        // Draw the image that covers the entire canvas
+//        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+//        GraphicsContext gc = canvas.getGraphicsContext2D();
+//        gc.clearRect(0, 0, WIDTH, HEIGHT);
+//
+//        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+//        gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);
+//
+//        for (GameObject obj : gameObjects) {
+//            obj.move();
+//            obj.render(gc);
+//        }
+
 
         // Create a Label with the instructions
         Label instructionsLabel = new Label("Hello world");
