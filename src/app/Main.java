@@ -169,19 +169,28 @@ public class Main extends Application {
         backButton.setLayoutX(160);
         backButton.setLayoutY(10); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> {
-                // Stop the current background music
-                if (backgroundMusic != null) {
-                    backgroundMusic.stop();
-                }
-                playBackgroundMusic("res/sound/mainsong.mp3");
+                    // Stop the current background music
+                    if (backgroundMusic != null) {
+                        backgroundMusic.stop();
+                    }
+                    playBackgroundMusic("res/sound/mainsong.mp3");
 
-                primaryStage.setScene(menuScene);
-                scene.getRoot().requestFocus(); // Request focus for the game scene
-                numLives = 400; // Reset numLives to 400
-                score = 0; // Reset score to 0
-                lifeLabel.setText("Lives: " + numLives);
-                scoreLabel.setText("Score: " + score);
-            }
+                    primaryStage.setScene(menuScene);
+                    scene.getRoot().requestFocus(); // Request focus for the game scene
+                    numLives = 400; // Reset numLives to 400
+                    score = 0; // Reset score to 0
+                    lifeLabel.setText("Lives: " + numLives);
+                    scoreLabel.setText("Score: " + score);
+
+                    if (!isRunning) {
+                        gameLoop.start();
+                        if (backgroundMusic != null) {
+                            backgroundMusic.play();
+                        }
+                        pauseButton.setText("Pause");
+                        isRunning = true;
+                    }
+                }
         );
 
         // ********** this for exit =w=
