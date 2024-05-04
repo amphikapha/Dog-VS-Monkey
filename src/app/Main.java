@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -494,19 +495,26 @@ public class Main extends Application {
         contributorPane.setBackground(new Background(background));
 
         // Create a Label with the contributor information
-        Label contributorLabel = new Label("Contributor: AnAn JoJo MyMy");
-        contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        contributorLabel.setLayoutX(0); // Position the label at the left of the pane
-        contributorLabel.setLayoutY(0); // Position the label at the top of the pane
+        Label contributorLabel = new Label("Contributor");
+        contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+        contributorLabel.setTextFill(Color.ROSYBROWN);
+        contributorLabel.setLayoutX(90); // Position the label at the left of the pane
+        contributorLabel.setLayoutY(10); // Position the label at the top of the pane
+
+        // Create an ImageView with the image you want to display
+        Image contributorImage = new Image(getClass().getResource("/pic/anan.png").toExternalForm());
+        ImageView contributorImageView = new ImageView(contributorImage);
+        contributorImageView.setLayoutX(90); // Position the ImageView below the label
+        contributorImageView.setLayoutY(50); // Adjust this value as needed
 
         // Create a "Back" button
-        Button backButton = new Button("Back");
-        backButton.setLayoutX(0);
-        backButton.setLayoutY(HEIGHT - 50); // Position the button at the bottom of the pane
+        Button backButton = createButton("Back", HEIGHT - 100);
+        backButton.setLayoutX(110);
+        backButton.setLayoutY(HEIGHT - 100); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
-        // Add the Label and the "Back" button to the Pane
-        contributorPane.getChildren().addAll(contributorLabel, backButton);
+        // Add the Label, ImageView, and the "Back" button to the Pane
+        contributorPane.getChildren().addAll(contributorLabel, contributorImageView, backButton);
 
         // Create a new Scene for the contributor
         Scene contributorScene = new Scene(contributorPane, WIDTH, HEIGHT);
