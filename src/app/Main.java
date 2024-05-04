@@ -248,16 +248,6 @@ public class Main extends Application {
             gameObjects.add(enemy);
         }
 
-        if (!bossExists && score % 200 == 0 && score > 0) {
-            BossDog boss = new BossDog(x, -50);
-            gameObjects.add(boss);
-            showTempMessage("A boss is ahead, watch out!", 75, HEIGHT / 2 - 100, 5);
-            bossExists = true;
-        } else {
-            Dog enemy = new NormalDog(x, -40);
-            gameObjects.add(enemy);
-        }
-
     }
 
 
@@ -282,13 +272,22 @@ public class Main extends Application {
                         ((BossDog) enemy).takeDamage();
                         if (((BossDog) enemy).getHealth() <= 0) {
                             enemy.setDead(true);
-                            score += 20;
+                            score += 100;
                         }
-                    } else {
+                    } else if (enemy instanceof SmallDog) {
+                        enemy.setDead(true);
+                        score += 50;
+                    } else if (enemy instanceof NormalDog) {
                         enemy.setDead(true);
                         score += 10;
                     }
-                    scoreLabel.setText("Score: " + score);
+
+                    new Thread(() -> {
+                        // Use Platform.runLater() to update the score on the JavaFX Application Thread
+                        javafx.application.Platform.runLater(() -> {
+                            scoreLabel.setText("Score: " + score);
+                        });
+                    }).start();
 
                     if (score % 100 == 0) {
                         Dog.setSpeed(Dog.getSpeed() + 2);
@@ -318,16 +317,19 @@ public class Main extends Application {
         }
 
         for (Dog enemy : dogs) {
-            if (enemy.getY() + enemy.getHeight() / 2 >= HEIGHT) {
+            if (enemy.getY() + enemy.getHeight() / 2 >= HEIGHT && !enemy.isDead()) {
                 enemy.setDead(true);
                 enemy.speed = enemy.speed + 0.4;
                 numLives--;
-                score -= 10;
-                lifeLabel.setText("Lives: " + numLives);
-                if (numLives < 0) {
-//                    enemy.SPEED = 2;
-                    resetGame();
-                }
+                new Thread(() -> {
+                    // Use Platform.runLater() to update the score and lives on the JavaFX Application Thread
+                    javafx.application.Platform.runLater(() -> {
+                        lifeLabel.setText("Lives: " + numLives);
+                        if (numLives < 0) {
+                            resetGame();
+                        }
+                    });
+                }).start();
             }
         }
     }
@@ -402,8 +404,8 @@ public class Main extends Application {
     private void spawnSmallDog() {
         Random random = new Random();
         int x = random.nextInt(WIDTH - SmallDog.WIDTH) + SmallDog.WIDTH / 2;
-        SmallDog powerUp = new SmallDog(x, -SmallDog.HEIGHT / 2);
-        gameObjects.add(powerUp);
+        SmallDog smallDog = new SmallDog(x, -SmallDog.HEIGHT / 2);
+        gameObjects.add(smallDog);
     }
 
     private void spawnBossEnemy() {
@@ -435,20 +437,10 @@ public class Main extends Application {
         Pane menuPane = new Pane();
         menuPane.setStyle("-fx-background-image: url('" + getClass().getResource("/pic/bg_menu.png").toExternalForm() + "');");
 
-//        Media sound = new Media(getClass().getResource("sound/sneaking-out_by_victor-cooper.mp3").toExternalForm());
-//        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-//        mediaPlayer.play();
-
-//        Text welcomeText = new Text("   Welcome to \nDog VS Monkey!");
-//        welcomeText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-//        welcomeText.setFill(Color.WHITE);
-//        welcomeText.setX((WIDTH - welcomeText.getLayoutBounds().getWidth()) / 2);
-//        welcomeText.setY(100); // Move welcome message higher on the screen
-
         Button startButton = createButton("START", 200);
         startButton.setOnAction(event -> startGame());
 
-        Button instructionsButton = createButton("Show Instructions", 300);
+        Button instructionsButton = createButton("Instructions", 300);
         instructionsButton.setOnAction(event -> showInstructions());
 
         Button quitButton = createButton("QUIT", 400);
@@ -461,7 +453,7 @@ public class Main extends Application {
         VBox buttonsContainer = new VBox(20); // Add buttons container to center-align the buttons
         buttonsContainer.setLayoutX((WIDTH - startButton.getPrefWidth()) / 2 - 100);
         buttonsContainer.setLayoutY(200);
-        buttonsContainer.getChildren().addAll(startButton, instructionsButton, quitButton, contributorButton);
+        buttonsContainer.getChildren().addAll(startButton, instructionsButton, contributorButton, quitButton);
 
         menuPane.getChildren().addAll(buttonsContainer);
 
