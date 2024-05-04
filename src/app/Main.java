@@ -11,8 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -489,6 +488,11 @@ public class Main extends Application {
         // Create a new Pane for the contributor
         Pane contributorPane = new Pane();
 
+        // Set the background image for the pane
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        contributorPane.setBackground(new Background(background));
+
         // Create a Label with the contributor information
         Label contributorLabel = new Label("Contributor: AnAn JoJo MyMy");
         contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
@@ -514,6 +518,11 @@ public class Main extends Application {
     private void showInstructions() {
         // Create a new Pane for the instructions
         Pane instructionsPane = new Pane();
+
+        // Set the background image for the pane
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        instructionsPane.setBackground(new Background(background));
 
         // Create a Label with the instructions
         Label instructionsLabel = new Label("Hello world");
