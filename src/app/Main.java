@@ -4,6 +4,7 @@ import component.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,8 +12,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -161,12 +163,12 @@ public class Main extends Application {
 
         };
 
-        pauseButton = new Button("Pause");
-        pauseButton.setLayoutX(230); // Position the button at the left of the screen
+        pauseButton = createButton("Pause",20);
+        pauseButton.setLayoutX(200); // Position the button at the left of the screen
         pauseButton.setLayoutY(10); // Position the button at the top of the screen
 
-        Button backButton = new Button("Back");
-        backButton.setLayoutX(160);
+        Button backButton = createButton("Back",20);
+        backButton.setLayoutX(110);
         backButton.setLayoutY(10); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> {
                     // Stop the current background music
@@ -481,20 +483,65 @@ public class Main extends Application {
         // Create a new Pane for the contributor
         Pane contributorPane = new Pane();
 
+        // Set the background image for the pane
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        contributorPane.setBackground(new Background(background));
+
         // Create a Label with the contributor information
-        Label contributorLabel = new Label("Contributor: AnAn JoJo MyMy");
-        contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        contributorLabel.setLayoutX(0); // Position the label at the left of the pane
-        contributorLabel.setLayoutY(0); // Position the label at the top of the pane
+        Label contributorLabel = new Label("Contributor");
+        contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+        contributorLabel.setTextFill(Color.BLACK);
+        contributorLabel.setLayoutX(90); // Position the label at the left of the pane
+        contributorLabel.setLayoutY(10); // Position the label at the top of the pane
+
+        //mymypic
+        ImageView mymyImage = new ImageView(new Image(getClass().getResource("/pic/mymy.png").toExternalForm()));
+        mymyImage.setFitWidth(100);
+        mymyImage.setFitHeight(100);
+        mymyImage.setLayoutX(100); // Position the image at the left of the pane
+        mymyImage.setLayoutY(50+10); // Position the image at the top of the pane
+        Label mymyLabel = new Label("MyMy 6633287021");
+        mymyLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        mymyLabel.setTextFill(Color.BLACK);
+        mymyLabel.setLayoutX(65); // Position the label at the left of the pane
+        mymyLabel.setLayoutY(150+10); // Position the label at the top of the pane
+
+
+        //jojopic
+        ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/jojo.png").toExternalForm()));
+        jojoImage.setFitWidth(100);
+        jojoImage.setFitHeight(100);
+        jojoImage.setLayoutX(100); // Position the image at the left of the pane
+        jojoImage.setLayoutY(50+10+150); // Position the image at the top of the pane
+        Label jojoLabel = new Label("JoJo 6633109021");
+        jojoLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        jojoLabel.setTextFill(Color.BLACK);
+        jojoLabel.setLayoutX(65); // Position the label at the left of the pane
+        jojoLabel.setLayoutY(150+10+150); // Position the label at the top of the pane
+
+
+        //ananpic
+        ImageView ananImage = new ImageView(new Image(getClass().getResource("/pic/anan.png").toExternalForm()));
+        ananImage.setFitWidth(100);
+        ananImage.setFitHeight(100);
+        ananImage.setLayoutX(100); // Position the image at the left of the pane
+        ananImage.setLayoutY(50+10+300); // Position the image at the top of the pane
+        Label ananLabel = new Label("AnAn 6633033021");
+        ananLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        ananLabel.setTextFill(Color.BLACK);
+        ananLabel.setLayoutX(65); // Position the label at the left of the pane
+        ananLabel.setLayoutY(150+10+300); // Position the label at the top of the pane
+
 
         // Create a "Back" button
-        Button backButton = new Button("Back");
-        backButton.setLayoutX(0);
-        backButton.setLayoutY(HEIGHT - 50); // Position the button at the bottom of the pane
+        Button backButton = createButton("Back", HEIGHT - 100);
+        backButton.setLayoutX(110);
+        backButton.setLayoutY(HEIGHT - 100); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
-        // Add the Label and the "Back" button to the Pane
-        contributorPane.getChildren().addAll(contributorLabel, backButton);
+        // Add the Label, ImageView, and the "Back" button to the Pane
+        contributorPane.getChildren().addAll(contributorLabel,jojoImage,jojoLabel,ananImage,ananLabel,mymyLabel,mymyImage, backButton);
 
         // Create a new Scene for the contributor
         Scene contributorScene = new Scene(contributorPane, WIDTH, HEIGHT);
@@ -507,16 +554,22 @@ public class Main extends Application {
         // Create a new Pane for the instructions
         Pane instructionsPane = new Pane();
 
+        // Set the background image for the pane
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        instructionsPane.setBackground(new Background(background));
+
         // Create a Label with the instructions
-        Label instructionsLabel = new Label("Hello world");
+        Label instructionsLabel = new Label("Hello world Hello world \n Hello worldHello world\nHello worldHello world\nHello worldHello world");
         instructionsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         instructionsLabel.setLayoutX(0); // Position the label at the left of the pane
-        instructionsLabel.setLayoutY(0); // Position the label at the top of the pane
+        instructionsLabel.setLayoutY(0); // Position the label at the top of the pan
+        instructionsLabel.setPadding(new Insets(30, 30, 30, 30));
 
         // Create a "Back" button
-        Button backButton = new Button("Back");
-        backButton.setLayoutX(0);
-        backButton.setLayoutY(HEIGHT - 50); // Position the button at the bottom of the pane
+        Button backButton = createButton("Back",HEIGHT-100);
+        backButton.setLayoutX(110);
+        backButton.setLayoutY(HEIGHT - 100); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
         // Add the Label and the "Back" button to the Pane
