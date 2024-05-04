@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
@@ -24,8 +23,6 @@ import javafx.util.Duration;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
-
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,20 +39,14 @@ public class Main extends Application {
     private boolean isRunning = false;
     private Button pauseButton;
     private int score = 0;
-    private boolean bossExists = false;
     private boolean reset = false;
     private final Label scoreLabel = new Label("Score: " + score);
     private final Label lifeLabel = new Label("Lives: " + numLives);
     private final List<GameObject> gameObjects = new ArrayList<>();
-
     private final List<GameObject> newObjects = new ArrayList<>();
-
     private Monkey monkey = new Monkey(WIDTH / 2, HEIGHT - 40);
-
     private Pane root = new Pane();
-
     private Scene scene = new Scene(root, WIDTH, HEIGHT, Color.BLACK);
-    private boolean levelUpShown = false;
     private Scene menuScene; // Make menuScene a class member
     private Stage primaryStage;
     private MediaPlayer backgroundMusic;
@@ -151,7 +142,6 @@ public class Main extends Application {
 
                 Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
 
-
                 gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);
 
                 for (GameObject obj : gameObjects) {
@@ -160,7 +150,6 @@ public class Main extends Application {
                 }
 
             }
-
 
         };
 
@@ -274,7 +263,6 @@ public class Main extends Application {
         }
     }
 
-
     private void checkCollisions() {
         List<Bullet> bullets = new ArrayList<>();
         List<Dog> dogs = new ArrayList<>();
@@ -291,7 +279,7 @@ public class Main extends Application {
             for (Dog enemy : dogs) {
                 if (bullet.getBounds().intersects(enemy.getBounds())) {
                     bullet.setDead(true);
-                    enemy.playDeathSound(); // play death sound for all types of dogs
+                    enemy.playDeathSound(); // play death sound for each types of dogs
                     if (enemy instanceof BossDog) {
                         ((BossDog) enemy).takeDamage();
                         if (((BossDog) enemy).getHealth() <= 0) {
@@ -308,7 +296,6 @@ public class Main extends Application {
                     }
 
                     new Thread(() -> {
-                        // Use Platform.runLater() to update the score on the JavaFX Application Thread
                         javafx.application.Platform.runLater(() -> {
                             scoreLabel.setText("Score: " + score);
                             lifeLabel.setText("Lives: " + numLives);
@@ -339,7 +326,6 @@ public class Main extends Application {
                 enemy.speed = enemy.speed + 0.4;
                 numLives--;
                 new Thread(() -> {
-                    // Use Platform.runLater() to update the score and lives on the JavaFX Application Thread
                     javafx.application.Platform.runLater(() -> {
                         lifeLabel.setText("Lives: " + numLives);
                         if (numLives < 0) {
@@ -445,17 +431,15 @@ public class Main extends Application {
         quitButton.setPrefWidth(buttonWidth);
         quitButton.setOnAction(event -> System.exit(0));
 
-        // Create a Contributor button
         Button contributorButton = createButton("Contributors", 500);
         contributorButton.setPrefWidth(buttonWidth);
         contributorButton.setOnAction(event -> showContributor());
 
-        VBox buttonsContainer = new VBox(20); // Add buttons container to center-align the buttons
+        VBox buttonsContainer = new VBox(20);
         buttonsContainer.setLayoutY(220);
-        buttonsContainer.setAlignment(Pos.CENTER); // This will center the buttons
+        buttonsContainer.setAlignment(Pos.CENTER);
         buttonsContainer.getChildren().addAll(startButton, instructionsButton, contributorButton, quitButton);
 
-        // Bind the layoutX property of the buttonsContainer to the half of the width property of the menuPane minus half of the width property of the buttonsContainer
         buttonsContainer.layoutXProperty().bind(menuPane.widthProperty().subtract(buttonsContainer.widthProperty()).divide(2));
 
         menuPane.getChildren().add(getWelcomeLabel());
@@ -483,14 +467,11 @@ public class Main extends Application {
     }
 
     private void showContributor() {
-        // Create a new Pane for the contributor
         Pane contributorPane = new Pane();
 
-        // Set the background image for the pane
         Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         contributorPane.setBackground(new Background(background));
-
 
         Label contributorLabel = new Label("Contributors");
         contributorLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 25));
@@ -502,60 +483,53 @@ public class Main extends Application {
         ImageView mymyImage = new ImageView(new Image(getClass().getResource("/pic/mymy.png").toExternalForm()));
         mymyImage.setFitWidth(100);
         mymyImage.setFitHeight(100);
-        mymyImage.setLayoutX(100); // Position the image at the left of the pane
-        mymyImage.setLayoutY(50 + 10); // Position the image at the top of the pane
+        mymyImage.setLayoutX(100);
+        mymyImage.setLayoutY(50 + 10);
         Label mymyLabel = new Label("MyMy 6633287021");
         mymyLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         mymyLabel.setTextFill(Color.BLACK);
-        mymyLabel.setLayoutX(65); // Position the label at the left of the pane
-        mymyLabel.setLayoutY(150 + 10); // Position the label at the top of the pane
+        mymyLabel.setLayoutX(65);
+        mymyLabel.setLayoutY(150 + 10);
 
         //ananpic
         ImageView ananImage = new ImageView(new Image(getClass().getResource("/pic/anan.png").toExternalForm()));
         ananImage.setFitWidth(100);
         ananImage.setFitHeight(100);
-        ananImage.setLayoutX(100); // Position the image at the left of the pane
-        ananImage.setLayoutY(50 + 10 + 300); // Position the image at the top of the pane
+        ananImage.setLayoutX(100);
+        ananImage.setLayoutY(50 + 10 + 300);
         Label ananLabel = new Label("AnAn 6633033021");
         ananLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         ananLabel.setTextFill(Color.BLACK);
-        ananLabel.setLayoutX(65); // Position the label at the left of the pane
-        ananLabel.setLayoutY(150 + 10 + 300); // Position the label at the top of the pane
+        ananLabel.setLayoutX(65);
+        ananLabel.setLayoutY(150 + 10 + 300);
 
         //jojopic
         ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/jojo.png").toExternalForm()));
         jojoImage.setFitWidth(100);
         jojoImage.setFitHeight(100);
-        jojoImage.setLayoutX(100); // Position the image at the left of the pane
-        jojoImage.setLayoutY(50 + 10 + 150); // Position the image at the top of the pane
+        jojoImage.setLayoutX(100);
+        jojoImage.setLayoutY(50 + 10 + 150);
         Label jojoLabel = new Label("JoJo 6633109021");
         jojoLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         jojoLabel.setTextFill(Color.BLACK);
-        jojoLabel.setLayoutX(65); // Position the label at the left of the pane
-        jojoLabel.setLayoutY(150 + 10 + 150); // Position the label at the top of the pane
+        jojoLabel.setLayoutX(65);
+        jojoLabel.setLayoutY(150 + 10 + 150);
 
-
-        // Create a "Back" button
         Button backButton = createButton("Back", HEIGHT - 100);
         backButton.setLayoutX(110);
-        backButton.setLayoutY(HEIGHT - 100); // Position the button at the bottom of the pane
+        backButton.setLayoutY(HEIGHT - 100);
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
-        // Add the Label, ImageView, and the "Back" button to the Pane
         contributorPane.getChildren().addAll(contributorLabel, ananImage, ananLabel, jojoImage, jojoLabel, mymyLabel, mymyImage, backButton);
 
-        // Create a new Scene for the contributor
         Scene contributorScene = new Scene(contributorPane, WIDTH, HEIGHT);
 
-        // Switch to the contributor Scene
         primaryStage.setScene(contributorScene);
     }
 
     private void showInstructions() {
-        // Create a new Pane for the instructions
         Pane instructionsPane = new Pane();
 
-        // Set the background image for the pane
         Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         instructionsPane.setBackground(new Background(background));
@@ -566,25 +540,24 @@ public class Main extends Application {
         instructionLabel.setLayoutX(80);
         instructionLabel.setLayoutY(10);
 
-        Label instructionsDetailLabel = new Label("- press A, W, S, D, or \narrow keys to move\n- press Space bar to shoot\nHello worldHello world\nHello worldHello world");
-        instructionsDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 17));
-        instructionsDetailLabel.setLayoutX(0);
-        instructionsDetailLabel.setLayoutY(20);
-        instructionsDetailLabel.setPadding(new Insets(30, 30, 30, 30));
+        Label instructionsDetailLabel01 = new Label("- WASD or arrow keys = move\n- Space bar = shoot" +
+                "\n\nIn Dog-VS-Monkey, you play as\na monkey shooting down dogs \nmoving toward you. Shoot dogs \nquickly to survive," +
+                "but watch out: \nif a dog reaches the bottom \nedge of the game screen or \nthe boss dog arrives,\nyou'll lose a life. Survive as long as possible!\n" +
+                "You have 20 lives to start with. Good luck!!!\n\n not done instruction detail na ja\n but all of things in the main is done.");
+        instructionsDetailLabel01.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 15));
+        instructionsDetailLabel01.setLayoutX(0);
+        instructionsDetailLabel01.setLayoutY(20);
+        instructionsDetailLabel01.setPadding(new Insets(30, 30, 30, 30));
 
-        // Create a "Back" button
         Button backButton = createButton("Back", HEIGHT - 100);
         backButton.setLayoutX(110);
-        backButton.setLayoutY(HEIGHT - 100); // Position the button at the bottom of the pane
+        backButton.setLayoutY(HEIGHT - 100);
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
-        // Add the Label and the "Back" button to the Pane
-        instructionsPane.getChildren().addAll(instructionLabel, instructionsDetailLabel, backButton);
+        instructionsPane.getChildren().addAll(instructionLabel, instructionsDetailLabel01, backButton);
 
-        // Create a new Scene for the instructions
         Scene instructionsScene = new Scene(instructionsPane, WIDTH, HEIGHT);
 
-        // Switch to the instructions Scene
         primaryStage.setScene(instructionsScene);
     }
 
@@ -602,7 +575,6 @@ public class Main extends Application {
     }
 
     private void startGame() {
-        // Stop the current background music
         if (backgroundMusic != null) {
             backgroundMusic.stop();
         }
@@ -618,15 +590,13 @@ public class Main extends Application {
     }
 
     private void playBackgroundMusic(String musicFile) {
-        // path to the music file
         Media sound = new Media(Paths.get(musicFile).toUri().toString());
         backgroundMusic = new MediaPlayer(sound);
-        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE); // loop indefinitely
+        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundMusic.play();
     }
 
     public static void playEffectSound(String soundFile) {
-        // path to the sound file
         Media sound = new Media(Paths.get(soundFile).toUri().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
