@@ -69,7 +69,7 @@ public class Main extends Application {
         primaryStage.setTitle("Space Shooter");
         primaryStage.setResizable(false);
 
-        playBackgroundMusic("res/sound/mainsong.mp3");
+        playBackgroundMusic("res/sound/bgmusic/mainsong.mp3");
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         scoreLabel.setTranslateX(10);
@@ -173,7 +173,7 @@ public class Main extends Application {
                     if (backgroundMusic != null) {
                         backgroundMusic.stop();
                     }
-                    playBackgroundMusic("res/sound/mainsong.mp3");
+                    playBackgroundMusic("res/sound/bgmusic/mainsong.mp3");
 
                     primaryStage.setScene(menuScene);
                     scene.getRoot().requestFocus(); // Request focus for the game scene
@@ -225,15 +225,6 @@ public class Main extends Application {
         isRunning = true;
 
         primaryStage.show();
-    }
-
-
-    private void playBackgroundMusic() {
-        String musicFile = "res/sound/mainsong.mp3"; // path to the music file
-        Media sound = new Media(Paths.get(musicFile).toUri().toString());
-        backgroundMusic = new MediaPlayer(sound);
-        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE); // loop indefinitely
-        backgroundMusic.play();
     }
 
     private void spawnEnemy() {
@@ -589,7 +580,7 @@ public class Main extends Application {
         }
 
         // Play the new background music
-        playBackgroundMusic("res/sound/playsong.mp3");
+        playBackgroundMusic("res/sound/bgmusic/playsong.mp3");
 
         primaryStage.setScene(scene);
     }
@@ -600,6 +591,13 @@ public class Main extends Application {
         backgroundMusic = new MediaPlayer(sound);
         backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE); // loop indefinitely
         backgroundMusic.play();
+    }
+
+    public static void playEffectSound(String soundFile) {
+        // path to the sound file
+        Media sound = new Media(Paths.get(soundFile).toUri().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
 
 }

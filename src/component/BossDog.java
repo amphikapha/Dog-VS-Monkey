@@ -7,16 +7,15 @@ import javafx.scene.paint.Color;
 public class BossDog extends Dog {
     private int health;
 
-    protected static final int WIDTH = 50;
-    protected static final int HEIGHT = 50;
+    protected static final double WIDTH = 50;
+    protected static final double HEIGHT = 50;
     public static final double SPEED = 0.5;
 
-    private int numHits = 5;
     private Image bossDogImage;
 
     public BossDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
-        setHealth(5);
+        setHealth(3);
         setBossDogImage(new Image(getClass().getResource("/pic/monkey_head_green.png").toExternalForm()));
     }
 
@@ -30,10 +29,10 @@ public class BossDog extends Dog {
 
     @Override
     public void render(GraphicsContext gc) {
-//        gc.setFill(Color.BLUE);
-//        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH * 2, HEIGHT * 2);
-        gc.drawImage(getBossDogImage(), x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
-    }
+        double ratio = (double) getHealth() / 2; // Assuming the initial health is 3
+        double currentWidth = WIDTH * ratio;
+        double currentHeight = HEIGHT * ratio;
+        gc.drawImage(getBossDogImage(), x - currentWidth / 2, y - currentHeight / 2, currentWidth, currentHeight);    }
 
     public void takeDamage() {
         setHealth(getHealth() - 1);
@@ -62,14 +61,6 @@ public class BossDog extends Dog {
 
     public void setHealth(int health) {
         this.health = health;
-    }
-
-    public int getNumHits() {
-        return numHits;
-    }
-
-    public void setNumHits(int numHits) {
-        this.numHits = numHits;
     }
 
     public Image getBossDogImage() {

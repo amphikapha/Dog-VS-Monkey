@@ -50,6 +50,7 @@ public class Monkey extends GameObject {
     public void shoot(List<GameObject> newObjects) {
         Bullet bullet = new Bullet(getX(), getY() - getHeight() / 2 - Bullet.HEIGHT);
         newObjects.add(bullet);
+        Main.playEffectSound("res/sound/effect/shooting_sound1.wav");
     }
 
     public boolean isHasMovedLeft() {

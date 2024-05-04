@@ -3,12 +3,12 @@ package component;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Dog extends GameObject {
-    protected static int width;
-    protected static int height;
+    protected static double width;
+    protected static double height;
     public static double speed = 2;
     private boolean isDead = false;
 
-    public Dog(double x, double y, int width, int height) {
+    public Dog(double x, double y, double width, double height) {
         super(x, y, width, height);
     }
 
