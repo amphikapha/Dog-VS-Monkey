@@ -164,14 +164,14 @@ public class Main extends Application {
 
         };
 
-        pauseButton = createButton("Pause",20);
+        pauseButton = createButton("Pause", 20);
         pauseButton.setPrefWidth(100);
         pauseButton.setPrefSize(90, 30);
         pauseButton.setPadding(new Insets(5, 5, 5, 5));
         pauseButton.setLayoutX(202);
         pauseButton.setLayoutY(10);
 
-        Button backButton = createButton("Back",20);
+        Button backButton = createButton("Back", 20);
         backButton.setPrefSize(70, 30);
         backButton.setPadding(new Insets(5, 5, 5, 5));
         backButton.setLayoutX(126);
@@ -184,18 +184,23 @@ public class Main extends Application {
 
                     primaryStage.setScene(menuScene);
                     scene.getRoot().requestFocus();
+                    gameObjects.clear();
+                    newObjects.clear();
                     numLives = 20;
                     score = 0;
                     lifeLabel.setText("Lives: " + numLives);
                     scoreLabel.setText("Score: " + score);
+                    monkey = new Monkey(WIDTH / 2, HEIGHT - 40);
+                    gameObjects.add(monkey);
 
-                    if (!isRunning) {
-                        gameLoop.start();
+
+                    if (isRunning) {
+                        gameLoop.stop();
                         if (backgroundMusic != null) {
                             backgroundMusic.play();
                         }
                         pauseButton.setText("Pause");
-                        isRunning = true;
+                        isRunning = false;
                     }
                 }
         );
@@ -223,9 +228,9 @@ public class Main extends Application {
         root.getChildren().add(pauseButton);
         root.getChildren().add(backButton);
 
-        gameLoop.start();
+        gameLoop.stop();
         root.requestFocus();
-        isRunning = true;
+        isRunning = false;
 
         primaryStage.show();
     }
@@ -318,13 +323,6 @@ public class Main extends Application {
 
         }
 
-//        if (score % 100 == 0 && score > 0 && !levelUpShown) {
-//            showTempMessage("Level Up!", 110, HEIGHT / 2, 2);
-//            levelUpShown = true;
-//        } else if (score % 100 != 0) {
-//            levelUpShown = false;
-//        }
-
     }
 
     private void checkEnemiesReachingBottom() {
@@ -370,6 +368,11 @@ public class Main extends Application {
         getWelcomeLabel().setText("Game Over!");
         getWelcomeLabel().setTextFill(Color.ORANGERED);
         getWelcomeLabel().setLayoutX(80);
+
+        if (isRunning) {
+            gameLoop.stop();
+            isRunning = false;
+        }
 
         primaryStage.setScene(menuScene);
     }
@@ -500,37 +503,36 @@ public class Main extends Application {
         mymyImage.setFitWidth(100);
         mymyImage.setFitHeight(100);
         mymyImage.setLayoutX(100); // Position the image at the left of the pane
-        mymyImage.setLayoutY(50+10); // Position the image at the top of the pane
+        mymyImage.setLayoutY(50 + 10); // Position the image at the top of the pane
         Label mymyLabel = new Label("MyMy 6633287021");
         mymyLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         mymyLabel.setTextFill(Color.BLACK);
         mymyLabel.setLayoutX(65); // Position the label at the left of the pane
-        mymyLabel.setLayoutY(150+10); // Position the label at the top of the pane
+        mymyLabel.setLayoutY(150 + 10); // Position the label at the top of the pane
 
         //ananpic
         ImageView ananImage = new ImageView(new Image(getClass().getResource("/pic/anan.png").toExternalForm()));
         ananImage.setFitWidth(100);
         ananImage.setFitHeight(100);
         ananImage.setLayoutX(100); // Position the image at the left of the pane
-        ananImage.setLayoutY(50+10+300); // Position the image at the top of the pane
+        ananImage.setLayoutY(50 + 10 + 300); // Position the image at the top of the pane
         Label ananLabel = new Label("AnAn 6633033021");
         ananLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         ananLabel.setTextFill(Color.BLACK);
         ananLabel.setLayoutX(65); // Position the label at the left of the pane
-        ananLabel.setLayoutY(150+10+300); // Position the label at the top of the pane
+        ananLabel.setLayoutY(150 + 10 + 300); // Position the label at the top of the pane
 
         //jojopic
         ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/jojo.png").toExternalForm()));
         jojoImage.setFitWidth(100);
         jojoImage.setFitHeight(100);
         jojoImage.setLayoutX(100); // Position the image at the left of the pane
-        jojoImage.setLayoutY(50+10+150); // Position the image at the top of the pane
+        jojoImage.setLayoutY(50 + 10 + 150); // Position the image at the top of the pane
         Label jojoLabel = new Label("JoJo 6633109021");
         jojoLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         jojoLabel.setTextFill(Color.BLACK);
         jojoLabel.setLayoutX(65); // Position the label at the left of the pane
-        jojoLabel.setLayoutY(150+10+150); // Position the label at the top of the pane
-
+        jojoLabel.setLayoutY(150 + 10 + 150); // Position the label at the top of the pane
 
 
         // Create a "Back" button
@@ -540,7 +542,7 @@ public class Main extends Application {
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
         // Add the Label, ImageView, and the "Back" button to the Pane
-        contributorPane.getChildren().addAll(contributorLabel,ananImage,ananLabel,jojoImage,jojoLabel,mymyLabel,mymyImage, backButton);
+        contributorPane.getChildren().addAll(contributorLabel, ananImage, ananLabel, jojoImage, jojoLabel, mymyLabel, mymyImage, backButton);
 
         // Create a new Scene for the contributor
         Scene contributorScene = new Scene(contributorPane, WIDTH, HEIGHT);
@@ -564,14 +566,14 @@ public class Main extends Application {
         instructionLabel.setLayoutX(80);
         instructionLabel.setLayoutY(10);
 
-        Label instructionsDetailLabel = new Label("Hello world Hello world \n Hello worldHello world\nHello worldHello world\nHello worldHello world");
+        Label instructionsDetailLabel = new Label("- press A, W, S, D, or \narrow keys to move\n- press Space bar to shoot\nHello worldHello world\nHello worldHello world");
         instructionsDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 17));
         instructionsDetailLabel.setLayoutX(0);
         instructionsDetailLabel.setLayoutY(20);
         instructionsDetailLabel.setPadding(new Insets(30, 30, 30, 30));
 
         // Create a "Back" button
-        Button backButton = createButton("Back",HEIGHT-100);
+        Button backButton = createButton("Back", HEIGHT - 100);
         backButton.setLayoutX(110);
         backButton.setLayoutY(HEIGHT - 100); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
@@ -611,6 +613,8 @@ public class Main extends Application {
         playBackgroundMusic("res/sound/bgmusic/playsong.mp3");
 
         primaryStage.setScene(scene);
+        gameLoop.start();
+        isRunning = true;
     }
 
     private void playBackgroundMusic(String musicFile) {
