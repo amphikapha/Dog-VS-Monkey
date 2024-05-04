@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,7 +35,7 @@ import java.util.Random;
 public class Main extends Application {
     public static final int WIDTH = 300;
     public static final int HEIGHT = 600;
-    public static int numLives = 400;
+    public static int numLives = 20;
 
     private AnimationTimer gameLoop;
 
@@ -57,8 +58,8 @@ public class Main extends Application {
     private boolean levelUpShown = false;
     private Scene menuScene; // Make menuScene a class member
     private Stage primaryStage;
-    //    public MediaPlayer menuSound;
     private MediaPlayer backgroundMusic;
+    private Label welcomeLabel;
 
     public static void main(String[] args) {
         launch(args);
@@ -94,9 +95,9 @@ public class Main extends Application {
 
 
         gameLoop = new AnimationTimer() {
-            private long lastEnemySpawned = 0;
+            private long lastDogSpawned = 0;
 
-            private long lastPowerUpSpawned = 0;
+            private long lastSmallDogSpawned = 0;
 
             @Override
             public void handle(long now) {
@@ -106,14 +107,14 @@ public class Main extends Application {
                 }
                 gc.clearRect(0, 0, WIDTH, HEIGHT);
 
-                if (now - lastEnemySpawned > 1_000_000_000) {
-                    spawnEnemy();
-                    lastEnemySpawned = now;
+                if (now - lastDogSpawned > 1_000_000_000) {
+                    spawnDog();
+                    lastDogSpawned = now;
                 }
 
-                if (now - lastPowerUpSpawned > 10_000_000_000L) {
+                if (now - lastSmallDogSpawned > 10_000_000_000L) {
                     spawnSmallDog();
-                    lastPowerUpSpawned = now;
+                    lastSmallDogSpawned = now;
                 }
 
                 if (score >= 200 && score % 200 == 0) {
@@ -125,7 +126,7 @@ public class Main extends Application {
                         }
                     }
                     if (!bossExists) {
-                        spawnBossEnemy();
+                        spawnBossDog();
                     }
                 }
 
@@ -150,7 +151,7 @@ public class Main extends Application {
 
                 Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
 
-                // Draw the image that covers the entire canvas
+
                 gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);
 
                 for (GameObject obj : gameObjects) {
@@ -164,23 +165,27 @@ public class Main extends Application {
         };
 
         pauseButton = createButton("Pause",20);
-        pauseButton.setLayoutX(200); // Position the button at the left of the screen
-        pauseButton.setLayoutY(10); // Position the button at the top of the screen
+        pauseButton.setPrefWidth(100);
+        pauseButton.setPrefSize(90, 30);
+        pauseButton.setPadding(new Insets(5, 5, 5, 5));
+        pauseButton.setLayoutX(202);
+        pauseButton.setLayoutY(10);
 
         Button backButton = createButton("Back",20);
-        backButton.setLayoutX(110);
-        backButton.setLayoutY(10); // Position the button at the bottom of the pane
+        backButton.setPrefSize(70, 30);
+        backButton.setPadding(new Insets(5, 5, 5, 5));
+        backButton.setLayoutX(126);
+        backButton.setLayoutY(10);
         backButton.setOnAction(event -> {
-                    // Stop the current background music
                     if (backgroundMusic != null) {
                         backgroundMusic.stop();
                     }
                     playBackgroundMusic("res/sound/bgmusic/mainsong.mp3");
 
                     primaryStage.setScene(menuScene);
-                    scene.getRoot().requestFocus(); // Request focus for the game scene
-                    numLives = 400; // Reset numLives to 400
-                    score = 0; // Reset score to 0
+                    scene.getRoot().requestFocus();
+                    numLives = 20;
+                    score = 0;
                     lifeLabel.setText("Lives: " + numLives);
                     scoreLabel.setText("Score: " + score);
 
@@ -194,10 +199,6 @@ public class Main extends Application {
                     }
                 }
         );
-
-        // ********** this for exit =w=
-//        quitButton.setOnAction(event -> System.exit(0));
-
 
         pauseButton.setOnAction(event -> {
             if (isRunning) {
@@ -229,7 +230,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void spawnEnemy() {
+    private void spawnDog() {
         Random random = new Random();
         int x = random.nextInt(WIDTH - 50) + 25;
 
@@ -250,6 +251,22 @@ public class Main extends Application {
             gameObjects.add(enemy);
         }
 
+    }
+
+    private void spawnSmallDog() {
+        Random random = new Random();
+        int x = random.nextInt(WIDTH - SmallDog.WIDTH) + SmallDog.WIDTH / 2;
+        SmallDog smallDog = new SmallDog(x, -SmallDog.HEIGHT / 2);
+        gameObjects.add(smallDog);
+    }
+
+    private void spawnBossDog() {
+        if (gameObjects.stream().noneMatch(obj -> obj instanceof BossDog)) {
+            BossDog bossEnemy = new BossDog(WIDTH / 2, -40);
+            gameObjects.add(bossEnemy);
+            showTempMessage("Boss dog is coming!!!", 55, HEIGHT / 2, 3);
+            playEffectSound("res/sound/effect/howlingdog.wav");
+        }
     }
 
 
@@ -279,6 +296,7 @@ public class Main extends Application {
                     } else if (enemy instanceof SmallDog) {
                         enemy.setDead(true);
                         score += 50;
+                        numLives++;
                     } else if (enemy instanceof NormalDog) {
                         enemy.setDead(true);
                         score += 10;
@@ -288,6 +306,7 @@ public class Main extends Application {
                         // Use Platform.runLater() to update the score on the JavaFX Application Thread
                         javafx.application.Platform.runLater(() -> {
                             scoreLabel.setText("Score: " + score);
+                            lifeLabel.setText("Lives: " + numLives);
                         });
                     }).start();
 
@@ -299,14 +318,12 @@ public class Main extends Application {
 
         }
 
-        if (score % 100 == 0 && score > 0 && !levelUpShown) {
-            showTempMessage("Level Up!", 110, HEIGHT / 2, 2);
-            levelUpShown = true;
-        } else if (score % 100 != 0) {
-            levelUpShown = false;
-        }
-
-        checkScore();
+//        if (score % 100 == 0 && score > 0 && !levelUpShown) {
+//            showTempMessage("Level Up!", 110, HEIGHT / 2, 2);
+//            levelUpShown = true;
+//        } else if (score % 100 != 0) {
+//            levelUpShown = false;
+//        }
 
     }
 
@@ -338,25 +355,23 @@ public class Main extends Application {
 
     private void resetGame() {
         gameObjects.clear();
-        numLives = 3;
         score = 0;
-        lifeLabel.setText("Lives: " + numLives);
+        numLives = 20;
         scoreLabel.setText("Score: " + score);
+        lifeLabel.setText("Lives: " + numLives);
+        monkey = new Monkey(WIDTH / 2, HEIGHT - 40);
         gameObjects.add(monkey);
-        reset = true;
-        Text lostMessage = new Text("You lost! The game has been reset.");
-        lostMessage.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        lostMessage.setFill(Color.RED);
-        lostMessage.setX((WIDTH - lostMessage.getLayoutBounds().getWidth()) / 2);
-        lostMessage.setY(HEIGHT / 2);
-        root.getChildren().add(lostMessage);
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(event -> {
-            root.getChildren().remove(lostMessage);
-            initEventHandlers(scene);
-        });
-        pause.play();
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+        }
+        playBackgroundMusic("res/sound/bgmusic/diesong.mp3");
+
+        getWelcomeLabel().setText("Game Over!");
+        getWelcomeLabel().setTextFill(Color.ORANGERED);
+        getWelcomeLabel().setLayoutX(80);
+
+        primaryStage.setScene(menuScene);
     }
 
     private void initEventHandlers(Scene scene) {
@@ -403,60 +418,44 @@ public class Main extends Application {
 
     }
 
-    private void spawnSmallDog() {
-        Random random = new Random();
-        int x = random.nextInt(WIDTH - SmallDog.WIDTH) + SmallDog.WIDTH / 2;
-        SmallDog smallDog = new SmallDog(x, -SmallDog.HEIGHT / 2);
-        gameObjects.add(smallDog);
-    }
-
-    private void spawnBossEnemy() {
-        if (gameObjects.stream().noneMatch(obj -> obj instanceof BossDog)) {
-            BossDog bossEnemy = new BossDog(WIDTH / 2, -40);
-            gameObjects.add(bossEnemy);
-        }
-    }
-
-
-    private void checkScore() {
-        if (this.score >= 100) {
-            Text lostMessage = new Text("Now I dare you to pass 1000 :)");
-            lostMessage.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-            lostMessage.setFill(Color.RED);
-            lostMessage.setX((WIDTH - lostMessage.getLayoutBounds().getWidth()) / 2);
-            lostMessage.setY(HEIGHT / 2 - 100);
-            root.getChildren().add(lostMessage);
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
-            pause.setOnFinished(event -> {
-                root.getChildren().remove(lostMessage);
-            });
-            pause.play();
-        }
-
-    }
-
     private Pane createMenu() {
         Pane menuPane = new Pane();
         menuPane.setStyle("-fx-background-image: url('" + getClass().getResource("/pic/bg_menu.png").toExternalForm() + "');");
 
-        Button startButton = createButton("START", 200);
+        setWelcomeLabel(new Label("Welcome!"));
+        getWelcomeLabel().setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 25));
+        getWelcomeLabel().setTextFill(Color.INDIANRED);
+        getWelcomeLabel().setLayoutX(90);
+        getWelcomeLabel().setLayoutY(170);
+
+        double buttonWidth = 180;
+
+        Button startButton = createButton("Start", 200);
+        startButton.setPrefWidth(buttonWidth);
         startButton.setOnAction(event -> startGame());
 
         Button instructionsButton = createButton("Instructions", 300);
+        instructionsButton.setPrefWidth(buttonWidth);
         instructionsButton.setOnAction(event -> showInstructions());
 
-        Button quitButton = createButton("QUIT", 400);
+        Button quitButton = createButton("Quit", 400);
+        quitButton.setPrefWidth(buttonWidth);
         quitButton.setOnAction(event -> System.exit(0));
 
         // Create a Contributor button
-        Button contributorButton = createButton("Contributor", 500);
+        Button contributorButton = createButton("Contributors", 500);
+        contributorButton.setPrefWidth(buttonWidth);
         contributorButton.setOnAction(event -> showContributor());
 
         VBox buttonsContainer = new VBox(20); // Add buttons container to center-align the buttons
-        buttonsContainer.setLayoutX((WIDTH - startButton.getPrefWidth()) / 2 - 100);
-        buttonsContainer.setLayoutY(200);
+        buttonsContainer.setLayoutY(220);
+        buttonsContainer.setAlignment(Pos.CENTER); // This will center the buttons
         buttonsContainer.getChildren().addAll(startButton, instructionsButton, contributorButton, quitButton);
 
+        // Bind the layoutX property of the buttonsContainer to the half of the width property of the menuPane minus half of the width property of the buttonsContainer
+        buttonsContainer.layoutXProperty().bind(menuPane.widthProperty().subtract(buttonsContainer.widthProperty()).divide(2));
+
+        menuPane.getChildren().add(getWelcomeLabel());
         menuPane.getChildren().addAll(buttonsContainer);
 
         return menuPane;
@@ -464,10 +463,11 @@ public class Main extends Application {
 
     private Button createButton(String text, double y) {
         Button button = new Button(text);
+        button.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         button.setLayoutX((WIDTH - button.getPrefWidth()) / 2);
         button.setLayoutY(y);
         button.setTextFill(Color.WHITE);
-        button.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 10 20;");
+        button.setStyle("-fx-background-color: rgba(196, 164, 132 0.5); -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;");
         button.setOnMouseEntered(event -> {
             button.setTextFill(Color.YELLOW);
             button.setEffect(new Glow());
@@ -488,12 +488,12 @@ public class Main extends Application {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         contributorPane.setBackground(new Background(background));
 
-        // Create a Label with the contributor information
-        Label contributorLabel = new Label("Contributor");
-        contributorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 25));
-        contributorLabel.setTextFill(Color.BLACK);
-        contributorLabel.setLayoutX(90); // Position the label at the left of the pane
-        contributorLabel.setLayoutY(10); // Position the label at the top of the pane
+
+        Label contributorLabel = new Label("Contributors");
+        contributorLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 25));
+        contributorLabel.setTextFill(Color.INDIANRED);
+        contributorLabel.setLayoutX(80);
+        contributorLabel.setLayoutY(10);
 
         //mymypic
         ImageView mymyImage = new ImageView(new Image(getClass().getResource("/pic/mymy.png").toExternalForm()));
@@ -502,24 +502,10 @@ public class Main extends Application {
         mymyImage.setLayoutX(100); // Position the image at the left of the pane
         mymyImage.setLayoutY(50+10); // Position the image at the top of the pane
         Label mymyLabel = new Label("MyMy 6633287021");
-        mymyLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        mymyLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         mymyLabel.setTextFill(Color.BLACK);
         mymyLabel.setLayoutX(65); // Position the label at the left of the pane
         mymyLabel.setLayoutY(150+10); // Position the label at the top of the pane
-
-
-        //jojopic
-        ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/jojo.png").toExternalForm()));
-        jojoImage.setFitWidth(100);
-        jojoImage.setFitHeight(100);
-        jojoImage.setLayoutX(100); // Position the image at the left of the pane
-        jojoImage.setLayoutY(50+10+150); // Position the image at the top of the pane
-        Label jojoLabel = new Label("JoJo 6633109021");
-        jojoLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        jojoLabel.setTextFill(Color.BLACK);
-        jojoLabel.setLayoutX(65); // Position the label at the left of the pane
-        jojoLabel.setLayoutY(150+10+150); // Position the label at the top of the pane
-
 
         //ananpic
         ImageView ananImage = new ImageView(new Image(getClass().getResource("/pic/anan.png").toExternalForm()));
@@ -528,10 +514,23 @@ public class Main extends Application {
         ananImage.setLayoutX(100); // Position the image at the left of the pane
         ananImage.setLayoutY(50+10+300); // Position the image at the top of the pane
         Label ananLabel = new Label("AnAn 6633033021");
-        ananLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        ananLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         ananLabel.setTextFill(Color.BLACK);
         ananLabel.setLayoutX(65); // Position the label at the left of the pane
         ananLabel.setLayoutY(150+10+300); // Position the label at the top of the pane
+
+        //jojopic
+        ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/jojo.png").toExternalForm()));
+        jojoImage.setFitWidth(100);
+        jojoImage.setFitHeight(100);
+        jojoImage.setLayoutX(100); // Position the image at the left of the pane
+        jojoImage.setLayoutY(50+10+150); // Position the image at the top of the pane
+        Label jojoLabel = new Label("JoJo 6633109021");
+        jojoLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        jojoLabel.setTextFill(Color.BLACK);
+        jojoLabel.setLayoutX(65); // Position the label at the left of the pane
+        jojoLabel.setLayoutY(150+10+150); // Position the label at the top of the pane
+
 
 
         // Create a "Back" button
@@ -541,7 +540,7 @@ public class Main extends Application {
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
         // Add the Label, ImageView, and the "Back" button to the Pane
-        contributorPane.getChildren().addAll(contributorLabel,jojoImage,jojoLabel,ananImage,ananLabel,mymyLabel,mymyImage, backButton);
+        contributorPane.getChildren().addAll(contributorLabel,ananImage,ananLabel,jojoImage,jojoLabel,mymyLabel,mymyImage, backButton);
 
         // Create a new Scene for the contributor
         Scene contributorScene = new Scene(contributorPane, WIDTH, HEIGHT);
@@ -559,12 +558,17 @@ public class Main extends Application {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         instructionsPane.setBackground(new Background(background));
 
-        // Create a Label with the instructions
-        Label instructionsLabel = new Label("Hello world Hello world \n Hello worldHello world\nHello worldHello world\nHello worldHello world");
-        instructionsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        instructionsLabel.setLayoutX(0); // Position the label at the left of the pane
-        instructionsLabel.setLayoutY(0); // Position the label at the top of the pan
-        instructionsLabel.setPadding(new Insets(30, 30, 30, 30));
+        Label instructionLabel = new Label("Instructions");
+        instructionLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 25));
+        instructionLabel.setTextFill(Color.INDIANRED);
+        instructionLabel.setLayoutX(80);
+        instructionLabel.setLayoutY(10);
+
+        Label instructionsDetailLabel = new Label("Hello world Hello world \n Hello worldHello world\nHello worldHello world\nHello worldHello world");
+        instructionsDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 17));
+        instructionsDetailLabel.setLayoutX(0);
+        instructionsDetailLabel.setLayoutY(20);
+        instructionsDetailLabel.setPadding(new Insets(30, 30, 30, 30));
 
         // Create a "Back" button
         Button backButton = createButton("Back",HEIGHT-100);
@@ -573,7 +577,7 @@ public class Main extends Application {
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
         // Add the Label and the "Back" button to the Pane
-        instructionsPane.getChildren().addAll(instructionsLabel, backButton);
+        instructionsPane.getChildren().addAll(instructionLabel, instructionsDetailLabel, backButton);
 
         // Create a new Scene for the instructions
         Scene instructionsScene = new Scene(instructionsPane, WIDTH, HEIGHT);
@@ -584,7 +588,7 @@ public class Main extends Application {
 
     private void showTempMessage(String message, double x, double y, double duration) {
         Text tempMessage = new Text(message);
-        tempMessage.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        tempMessage.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         tempMessage.setFill(Color.RED);
         tempMessage.setX(x);
         tempMessage.setY(y);
@@ -601,7 +605,9 @@ public class Main extends Application {
             backgroundMusic.stop();
         }
 
-        // Play the new background music
+        getWelcomeLabel().setText("Welcome!");
+        getWelcomeLabel().setTextFill(Color.INDIANRED);
+        getWelcomeLabel().setLayoutX(90);
         playBackgroundMusic("res/sound/bgmusic/playsong.mp3");
 
         primaryStage.setScene(scene);
@@ -622,4 +628,11 @@ public class Main extends Application {
         mediaPlayer.play();
     }
 
+    public Label getWelcomeLabel() {
+        return welcomeLabel;
+    }
+
+    public void setWelcomeLabel(Label welcomeLabel) {
+        this.welcomeLabel = welcomeLabel;
+    }
 }
