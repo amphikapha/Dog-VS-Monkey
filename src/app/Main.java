@@ -55,8 +55,9 @@ public class Main extends Application {
     private boolean levelUpShown = false;
     private Scene menuScene; // Make menuScene a class member
     private Stage primaryStage;
-//    public MediaPlayer menuSound;
+    //    public MediaPlayer menuSound;
     private MediaPlayer backgroundMusic;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -68,8 +69,6 @@ public class Main extends Application {
         primaryStage.setTitle("Space Shooter");
         primaryStage.setResizable(false);
 
-
-//        playMenuSound();
         playBackgroundMusic("res/sound/mainsong.mp3");
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
@@ -170,12 +169,19 @@ public class Main extends Application {
         backButton.setLayoutX(160);
         backButton.setLayoutY(10); // Position the button at the bottom of the pane
         backButton.setOnAction(event -> {
-                    primaryStage.setScene(menuScene);
-                    numLives = 400; // Reset numLives to 400
-                    score = 0; // Reset score to 0
-                    lifeLabel.setText("Lives: " + numLives);
-                    scoreLabel.setText("Score: " + score);
+                // Stop the current background music
+                if (backgroundMusic != null) {
+                    backgroundMusic.stop();
                 }
+                playBackgroundMusic("res/sound/mainsong.mp3");
+
+                primaryStage.setScene(menuScene);
+                scene.getRoot().requestFocus(); // Request focus for the game scene
+                numLives = 400; // Reset numLives to 400
+                score = 0; // Reset score to 0
+                lifeLabel.setText("Lives: " + numLives);
+                scoreLabel.setText("Score: " + score);
+            }
         );
 
         // ********** this for exit =w=
@@ -247,14 +253,12 @@ public class Main extends Application {
             gameObjects.add(boss);
             showTempMessage("A boss is ahead, watch out!", 75, HEIGHT / 2 - 100, 5);
             bossExists = true;
-        }
-        else {
+        } else {
             Dog enemy = new NormalDog(x, -40);
             gameObjects.add(enemy);
         }
 
     }
-
 
 
     private void checkCollisions() {
@@ -282,8 +286,7 @@ public class Main extends Application {
                     if (enemy instanceof BossDog) {
                         ((BossDog) enemy).takeDamage();
                         score += 20;
-                    }
-                    else {
+                    } else {
                         enemy.setDead(true);
                         score += 10;
                     }
@@ -331,7 +334,7 @@ public class Main extends Application {
 
     private void checkEnemiesReachingBottom() {
         List<Dog> dogs = new ArrayList<>();
-        for (GameObject obj: gameObjects) {
+        for (GameObject obj : gameObjects) {
             if (obj instanceof Dog) {
                 dogs.add((Dog) obj);
             }
@@ -422,7 +425,7 @@ public class Main extends Application {
     private void spawnSmallDog() {
         Random random = new Random();
         int x = random.nextInt(WIDTH - SmallDog.WIDTH) + SmallDog.WIDTH / 2;
-        SmallDog powerUp = new SmallDog(x, - SmallDog.HEIGHT / 2);
+        SmallDog powerUp = new SmallDog(x, -SmallDog.HEIGHT / 2);
         gameObjects.add(powerUp);
     }
 
@@ -432,7 +435,6 @@ public class Main extends Application {
             gameObjects.add(bossEnemy);
         }
     }
-
 
 
     private void checkScore() {
@@ -536,21 +538,6 @@ public class Main extends Application {
         // Create a new Pane for the instructions
         Pane instructionsPane = new Pane();
 
-
-//        // Draw the image that covers the entire canvas
-//        Canvas canvas = new Canvas(WIDTH, HEIGHT);
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.clearRect(0, 0, WIDTH, HEIGHT);
-//
-//        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
-//        gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);
-//
-//        for (GameObject obj : gameObjects) {
-//            obj.move();
-//            obj.render(gc);
-//        }
-
-
         // Create a Label with the instructions
         Label instructionsLabel = new Label("Hello world");
         instructionsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
@@ -585,6 +572,7 @@ public class Main extends Application {
         pause.setOnFinished(event -> root.getChildren().remove(tempMessage));
         pause.play();
     }
+
     private void startGame() {
         // Stop the current background music
         if (backgroundMusic != null) {
@@ -605,12 +593,4 @@ public class Main extends Application {
         backgroundMusic.play();
     }
 
-//    public void playMenuSound() {
-//        String s = "res/sound/sneaking-out_by_victor-cooper.mp3";
-//        Media menuSoundFile = new Media(Paths.get(s).toUri().toString());
-//        menuSound = new MediaPlayer(menuSoundFile);
-//        menuSound.setCycleCount(MediaPlayer.INDEFINITE);
-//        menuSound.setVolume(0.5);
-//        menuSound.play();
-//    }
 }
