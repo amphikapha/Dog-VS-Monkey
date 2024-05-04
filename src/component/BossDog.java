@@ -1,5 +1,6 @@
 package component;
 
+import app.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -39,6 +40,11 @@ public class BossDog extends Dog {
         if (getHealth() <= 0) {
             setDead(true);
         }
+    }
+
+    @Override
+    public void playDeathSound() {
+        Main.playEffectSound("res/sound/effect/bossDog.wav");
     }
 
     public boolean isDead() {

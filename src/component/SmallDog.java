@@ -1,5 +1,6 @@
 package component;
 
+import app.Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -23,9 +24,12 @@ public class SmallDog extends Dog {
 
     @Override
     public void render(GraphicsContext gc) {
-//        gc.setFill(Color.GREEN);
-//        gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
         gc.drawImage(getSmallDogImage(), x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+    }
+
+    @Override
+    public void playDeathSound() {
+        Main.playEffectSound("res/sound/effect/smallDog.wav");
     }
 
     @Override

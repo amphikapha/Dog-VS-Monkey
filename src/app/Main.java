@@ -263,19 +263,13 @@ public class Main extends Application {
 
     private void checkCollisions() {
         List<Bullet> bullets = new ArrayList<>();
-        List<NormalDog> dogs = new ArrayList<>();
-        List<SmallDog> powerUps = new ArrayList<>();
-        List<BossDog> bossDogs = new ArrayList<>();
+        List<Dog> dogs = new ArrayList<>();
 
         for (GameObject obj : gameObjects) {
             if (obj instanceof Bullet) {
                 bullets.add((Bullet) obj);
-            } else if (obj instanceof NormalDog) {
-                dogs.add((NormalDog) obj);
-            } else if (obj instanceof SmallDog) {
-                powerUps.add((SmallDog) obj);
-            } else if (obj instanceof BossDog) {
-                bossDogs.add((BossDog) obj);
+            } else if (obj instanceof Dog) {
+                dogs.add((Dog) obj);
             }
         }
 
@@ -283,9 +277,13 @@ public class Main extends Application {
             for (Dog enemy : dogs) {
                 if (bullet.getBounds().intersects(enemy.getBounds())) {
                     bullet.setDead(true);
+                    enemy.playDeathSound(); // play death sound for all types of dogs
                     if (enemy instanceof BossDog) {
                         ((BossDog) enemy).takeDamage();
-                        score += 20;
+                        if (((BossDog) enemy).getHealth() <= 0) {
+                            enemy.setDead(true);
+                            score += 20;
+                        }
                     } else {
                         enemy.setDead(true);
                         score += 10;
@@ -298,27 +296,6 @@ public class Main extends Application {
                 }
             }
 
-            // Check collisions between bullets and power-ups
-            for (SmallDog powerUp : powerUps) {
-                if (bullet.getBounds().intersects(powerUp.getBounds())) {
-                    bullet.setDead(true);
-                    powerUp.setDead(true);
-                    score += 50; // Deduct 5 points when a bullet hits a power-up
-                    scoreLabel.setText("Score: " + score);
-                }
-            }
-
-            for (BossDog bossDog : bossDogs) {
-                if (bullet.getBounds().intersects(bossDog.getBounds())) {
-                    bullet.setDead(true);
-                    bossDog.takeDamage();
-                    if (bossDog.getHealth() <= 0) {
-                        bossDog.setDead(true);
-                    }
-                    score += 20;
-                    scoreLabel.setText("Score: " + score);
-                }
-            }
         }
 
         if (score % 100 == 0 && score > 0 && !levelUpShown) {

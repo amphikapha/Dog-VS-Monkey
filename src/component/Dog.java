@@ -1,5 +1,6 @@
 package component;
 
+import app.Main;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Dog extends GameObject {
@@ -19,6 +20,11 @@ public abstract class Dog extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
+    }
+
+    public void playDeathSound() {
+        // default sound for a dog
+        Main.playEffectSound("res/sound/effect/dog.wav");
     }
 
     @Override
