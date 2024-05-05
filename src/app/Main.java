@@ -34,7 +34,7 @@ import java.util.Random;
 public class Main extends Application {
     public static final int WIDTH = 300; // width of the game screen
     public static final int HEIGHT = 600; // height of the game screen
-    public static int numLives = 20; // number of lives the player has
+    public static int numLives = 5; // number of lives the monkey has
     private AnimationTimer gameLoop; // animation timer for the game loop
     private boolean isRunning = false; // boolean to check if the game is running
     private Button pauseButton; // button to pause the game
@@ -64,7 +64,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
 
-        playBackgroundMusic("res/sound/bgmusic/mainsong.mp3");
+        playBackgroundMusic("/sound/bgmusic/mainsong.mp3");
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         scoreLabel.setTranslateX(10);
@@ -200,13 +200,13 @@ public class Main extends Application {
                     if (backgroundMusic != null) {
                         backgroundMusic.stop();
                     }
-                    playBackgroundMusic("res/sound/bgmusic/mainsong.mp3");
+                    playBackgroundMusic("/sound/bgmusic/mainsong.mp3");
 
                     primaryStage.setScene(menuScene);
                     scene.getRoot().requestFocus();
                     gameObjects.clear();
                     newObjects.clear();
-                    numLives = 20;
+                    numLives = 5;
                     score = 0;
                     lifeLabel.setText("Lives: " + numLives);
                     scoreLabel.setText("Score: " + score);
@@ -275,7 +275,7 @@ public class Main extends Application {
             BossDog bossEnemy = new BossDog(WIDTH / 2.0, -40);
             gameObjects.add(bossEnemy);
             showTempMessage("Boss dog is coming!!!", 55, HEIGHT / 2.0, 3);
-            playEffectSound("res/sound/effect/howlingdog.wav");
+            playEffectSound("/sound/effect/howlingdog.wav");
         }
     }
 
@@ -364,7 +364,7 @@ public class Main extends Application {
     private void resetGame() {
         gameObjects.clear();
         score = 0;
-        numLives = 20;
+        numLives = 5;
         scoreLabel.setText("Score: " + score);
         lifeLabel.setText("Lives: " + numLives);
         monkey = new Monkey(WIDTH / 2.0, HEIGHT - 40);
@@ -374,7 +374,7 @@ public class Main extends Application {
         if (backgroundMusic != null) {
             backgroundMusic.stop();
         }
-        playBackgroundMusic("res/sound/bgmusic/diesong.mp3");
+        playBackgroundMusic("/sound/bgmusic/diesong.mp3");
 
         getWelcomeLabel().setText("Game Over!");
         getWelcomeLabel().setTextFill(Color.ORANGERED);
@@ -512,7 +512,7 @@ public class Main extends Application {
         Pane contributorPane = new Pane();
 
         // set the background image of the contributor pane
-        Image backgroundImage = new Image(getClass().getResource("/pic/bg/bg_without_logo.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg/bg_without_tree.png").toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         contributorPane.setBackground(new Background(background));
 
@@ -592,8 +592,8 @@ public class Main extends Application {
         // create a label for the instructions detail
         Label instructionsDetailLabel01 = new Label(">> WASD or arrow keys = move\n>> Space bar = shoot" +
                 "\n\nIn Dog-VS-Monkey, you play as a monkey \nshooting down dogs moving toward you.\n" +
-                "If a dog reaches the bottom edge \nof the game screen, you'll lose a life. \n > Survive as long as possible!\n" +
-                " > You have 20 lives to start with. \n > Good luck!!!");
+                "If a dog reaches the bottom edge of \nthe game screen, you'll lose a life! \n>> Survive as long as possible!\n" +
+                ">> You have 5 lives to start with. \n>> Good luck :D");
         instructionsDetailLabel01.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         instructionsDetailLabel01.setLayoutX(0);
         instructionsDetailLabel01.setLayoutY(40);
@@ -643,15 +643,15 @@ public class Main extends Application {
         bossDogImageView.setLayoutX(35);
         bossDogImageView.setLayoutY(420);
 
-        Label bossDogDetailLabel = new Label(">> Boss Dog (?), \nhas 3 lives, Score +100");
+        Label bossDogDetailLabel = new Label(">> Boss Dog (?), \nIt has 3 lives!!! Score +100");
         bossDogDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         bossDogDetailLabel.setLayoutX(120);
         bossDogDetailLabel.setLayoutY(415);
 
-        Label bossDogDetailLabel2 = new Label("if it reaches the bottom,\nyou will die immediately!!!");
+        Label bossDogDetailLabel2 = new Label("If it reaches the bottom,\nyou will die immediately!!!");
         bossDogDetailLabel2.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         bossDogDetailLabel2.setLayoutX(120);
-        bossDogDetailLabel2.setLayoutY(450);
+        bossDogDetailLabel2.setLayoutY(452);
         bossDogDetailLabel2.setTextFill(Color.ORANGERED);
 
         instructionsPane.getChildren().addAll(bossDogImageView, bossDogDetailLabel, bossDogDetailLabel2);
@@ -696,7 +696,7 @@ public class Main extends Application {
         getWelcomeLabel().setLayoutX(90);
 
         // play the game start sound effect
-        playBackgroundMusic("res/sound/bgmusic/playsong.mp3");
+        playBackgroundMusic("/sound/bgmusic/playsong.mp3");
 
         primaryStage.setScene(scene);
         gameLoop.start();
@@ -705,7 +705,7 @@ public class Main extends Application {
 
     // playBackgroundMusic method to play the background music
     private void playBackgroundMusic(String musicFile) {
-        Media sound = new Media(Paths.get(musicFile).toUri().toString());
+        Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
         backgroundMusic = new MediaPlayer(sound);
         backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundMusic.play();
@@ -713,7 +713,7 @@ public class Main extends Application {
 
     // playEffectSound method to play the sound effect
     public static void playEffectSound(String soundFile) {
-        Media sound = new Media(Paths.get(soundFile).toUri().toString());
+        Media sound = new Media(Main.class.getResource(soundFile).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }

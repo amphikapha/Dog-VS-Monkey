@@ -45,7 +45,7 @@ public class BossDog extends Dog {
     // Method to play the sound when the boss dog dies and got shot (represent POLYMORPHISM)
     @Override
     public void playDeathSound() {
-        Main.playEffectSound("res/sound/effect/bossDog.wav");
+        Main.playEffectSound("/sound/effect/bossDog.wav");
     }
 
     // Getters and setters for the BossDog class

@@ -28,7 +28,7 @@ public abstract class Dog extends GameObject {
     // Method to play the sound when the dog dies (represent POLYMORPHISM)
     public void playDeathSound() {
         // default sound for a dog
-        Main.playEffectSound("res/sound/effect/dog.wav");
+        Main.playEffectSound("/sound/effect/dog.wav");
     }
 
     // Getters and setters for the Dog class

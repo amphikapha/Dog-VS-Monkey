@@ -15,7 +15,7 @@ public class Monkey extends GameObject {
     private boolean hasMovedRight; // boolean to check if the monkey has moved right
     private boolean hasMovedForward; // boolean to check if the monkey has moved forward
     private boolean hasMovedBackward; // boolean to check if the monkey has moved backward
-    private int health = 20; // health of the monkey
+    private int health = 5; // health of the monkey
     private boolean isDead = false; // boolean to check if the monkey is dead
     private Image monkeyImage; // image of the monkey
 
@@ -52,7 +52,7 @@ public class Monkey extends GameObject {
     public void shoot(List<GameObject> newObjects) {
         Bullet bullet = new Bullet(getX(), getY() - getHeight() / 2 - Bullet.HEIGHT);
         newObjects.add(bullet);
-        Main.playEffectSound("res/sound/effect/shooting_sound1.wav");
+        Main.playEffectSound("/sound/effect/shooting_sound1.wav");
     }
 
     // Getters and setters for the Monkey class

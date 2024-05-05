@@ -33,7 +33,7 @@ public class SmallDog extends Dog {
     // Method to play the sound when the small dog dies (represent POLYMORPHISM)
     @Override
     public void playDeathSound() {
-        Main.playEffectSound("res/sound/effect/smallDog.wav");
+        Main.playEffectSound("/sound/effect/smallDog.wav");
     }
 
     // Getters and setters for the SmallDog class

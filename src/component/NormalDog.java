@@ -38,7 +38,7 @@ public class NormalDog extends Dog {
     // Method to play the sound when the normal dog dies (represent POLYMORPHISM)
     @Override
     public void playDeathSound() {
-        Main.playEffectSound("res/sound/effect/normalDog.wav");
+        Main.playEffectSound("/sound/effect/normalDog.wav");
     }
 
     // Getters and setters for the NormalDog class
