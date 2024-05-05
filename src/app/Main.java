@@ -352,7 +352,7 @@ public class Main extends Application {
                 new Thread(() -> {
                     javafx.application.Platform.runLater(() -> {
                         lifeLabel.setText("Lives: " + numLives);
-                        if (numLives < 0) {
+                        if (numLives <= 0) {
                             resetGame();
                         }
                     });

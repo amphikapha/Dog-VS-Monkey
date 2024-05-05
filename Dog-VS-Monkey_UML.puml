@@ -1,0 +1,196 @@
+@startuml
+interface component.Renderable {
++ {abstract}void render(GraphicsContext)
+}
+class app.Main {
++ {static} int WIDTH
++ {static} int HEIGHT
++ {static} int numLives
+- AnimationTimer gameLoop
+- boolean isRunning
+- Button pauseButton
+- int score
+- boolean reset
+- Label scoreLabel
+- Label lifeLabel
+- List<GameObject> gameObjects
+- List<GameObject> newObjects
+- Monkey monkey
+- Pane root
+- Scene scene
+- Scene menuScene
+- Stage primaryStage
+- MediaPlayer backgroundMusic
+- Label welcomeLabel
++ {static} void main(String[])
++ void start(Stage)
+- void spawnDog()
+- void spawnSmallDog()
+- void spawnBossDog()
+- void checkCollisions()
+- void checkDogsReachingBottom()
+- void resetGame()
+- void initEventHandlers(Scene)
+- Pane createMenu()
+- Button createButton(String,double)
+- void showContributor()
+- void showInstructions()
+- void showTempMessage(String,double,double,double)
+- void startGame()
+- void playBackgroundMusic(String)
++ {static} void playEffectSound(String)
++ Label getWelcomeLabel()
++ void setWelcomeLabel(Label)
+}
+class component.NormalDog {
+# {static} int WIDTH
+# {static} int HEIGHT
++ {static} double SPEED
+- boolean isDead
+- Image normalDogImage
+- {static} String[] imagePaths
+- {static} Random random
++ <<Create>> NormalDog(double,double)
++ void move()
++ void render(GraphicsContext)
++ void playDeathSound()
++ double getWidth()
++ double getHeight()
++ boolean isDead()
++ void setDead(boolean)
++ Image getNormalDogImage()
++ void setNormalDogImage(Image)
+}
+abstract class component.GameObject {
+# double x
+# double y
+# double width
+# double height
++ <<Create>> GameObject(double,double,double,double)
++ {abstract}void move()
++ {abstract}void render(GraphicsContext)
++ {abstract}boolean isDead()
++ Bounds getBounds()
++ double getX()
++ void setX(double)
++ double getY()
++ void setY(double)
++ double getWidth()
++ void setWidth(double)
++ double getHeight()
++ void setHeight(double)
+}
+class component.Monkey {
+- {static} int WIDTH
+- {static} int HEIGHT
+- {static} double SPEED
+- boolean hasMovedLeft
+- boolean hasMovedRight
+- boolean hasMovedForward
+- boolean hasMovedBackward
+- int health
+- boolean isDead
+- Image monkeyImage
++ <<Create>> Monkey(double,double)
++ void move()
++ void render(GraphicsContext)
++ void shoot(List<GameObject>)
++ boolean isHasMovedLeft()
++ void setHasMovedLeft(boolean)
++ boolean isHasMovedRight()
++ void setHasMovedRight(boolean)
++ boolean isHasMovedForward()
++ void setHasMovedForward(boolean)
++ boolean isHasMovedBackward()
++ void setHasMovedBackward(boolean)
++ int getHealth()
++ void setHealth(int)
++ double getWidth()
++ double getHeight()
++ boolean isDead()
++ void setDead(boolean)
++ Image getMonkeyImage()
++ void setMonkeyImage(Image)
+}
+class component.SmallDog {
++ {static} int WIDTH
++ {static} int HEIGHT
+- {static} double SPEED
+- boolean isDead
+- Image smallDogImage
++ <<Create>> SmallDog(double,double)
++ void move()
++ void render(GraphicsContext)
++ void playDeathSound()
++ double getWidth()
++ double getHeight()
++ boolean isDead()
++ void setDead(boolean)
++ Image getSmallDogImage()
++ void setSmallDogImage(Image)
+}
+class component.Bullet {
++ {static} int WIDTH
++ {static} int HEIGHT
+- {static} double SPEED
+- boolean isDead
++ <<Create>> Bullet(double,double)
++ void move()
++ void render(GraphicsContext)
++ double getWidth()
++ double getHeight()
++ boolean isDead()
++ void setDead(boolean)
+}
+interface component.Movable {
++ {abstract}void move()
+}
+abstract class component.Dog {
+# {static} double width
+# {static} double height
++ {static} double speed
+- boolean isDead
++ <<Create>> Dog(double,double,double,double)
++ void move()
++ void render(GraphicsContext)
++ void playDeathSound()
++ double getWidth()
++ double getHeight()
++ {static} void setWidth(int)
++ {static} void setHeight(int)
++ boolean isDead()
++ void setDead(boolean)
++ {static} double getSpeed()
++ {static} void setSpeed(double)
+}
+class component.BossDog {
+- int health
+# {static} double WIDTH
+# {static} double HEIGHT
++ {static} double SPEED
+- Image bossDogImage
++ <<Create>> BossDog(double,double)
++ void move()
++ void render(GraphicsContext)
++ void takeDamage()
++ void playDeathSound()
++ boolean isDead()
++ double getWidth()
++ double getHeight()
++ int getHealth()
++ void setHealth(int)
++ Image getBossDogImage()
++ void setBossDogImage(Image)
+}
+
+
+javafx.application.Application <|-- app.Main
+component.Dog <|-- component.NormalDog
+component.Movable <|.. component.GameObject
+component.Renderable <|.. component.GameObject
+component.GameObject <|-- component.Monkey
+component.Dog <|-- component.SmallDog
+component.GameObject <|-- component.Bullet
+component.GameObject <|-- component.Dog
+component.Dog <|-- component.BossDog
+@enduml
