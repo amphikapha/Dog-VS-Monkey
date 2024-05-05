@@ -170,6 +170,7 @@ public class Main extends Application {
         pauseButton.setLayoutY(10);
         pauseButton.setOnAction(event -> {
             // pause the game if it is running
+            playEffectSound("/sound/effect/click.mp3");
             if (isRunning) {
                 gameLoop.stop();
                 if (backgroundMusic != null) {
@@ -202,6 +203,7 @@ public class Main extends Application {
                     playBackgroundMusic("/sound/bgmusic/mainsong.mp3");
 
                     primaryStage.setScene(menuScene);
+                    playEffectSound("/sound/effect/click.mp3");
                     scene.getRoot().requestFocus();
                     gameObjects.clear();
                     newObjects.clear();
@@ -455,23 +457,34 @@ public class Main extends Application {
         // start button
         Button startButton = createButton("Start", 200);
         startButton.setPrefWidth(buttonWidth);
-        startButton.setOnAction(event -> startGame());
+        startButton.setOnAction(event -> {
+            startGame();
+            playEffectSound("/sound/effect/click.mp3");
+        });
 
         // instructions button
         Button instructionsButton = createButton("Instructions", 300);
         instructionsButton.setPrefWidth(buttonWidth);
-        instructionsButton.setOnAction(event -> showInstructions());
+        instructionsButton.setOnAction(event -> {
+            showInstructions();
+            playEffectSound("/sound/effect/click.mp3");
+        });
 
         // quit button
         Button quitButton = createButton("Quit", 400);
         quitButton.setPrefWidth(buttonWidth);
-        quitButton.setOnAction(event -> System.exit(0));
+        quitButton.setOnAction(event -> {
+            System.exit(0);
+            playEffectSound("/sound/effect/click.mp3");
+        });
 
         // contributors button
         Button contributorButton = createButton("Contributors", 500);
         contributorButton.setPrefWidth(buttonWidth);
-        contributorButton.setOnAction(event -> showContributor());
-
+        contributorButton.setOnAction(event -> {
+            showContributor();
+            playEffectSound("/sound/effect/click.mp3");
+        });
         // create a container for the buttons
         VBox buttonsContainer = new VBox(20);
         buttonsContainer.setLayoutY(220);
@@ -563,7 +576,10 @@ public class Main extends Application {
         Button backButton = createButton("Back", HEIGHT - 90);
         backButton.setLayoutX(110);
         backButton.setLayoutY(HEIGHT - 90);
-        backButton.setOnAction(event -> primaryStage.setScene(menuScene));
+        backButton.setOnAction(event -> {
+            primaryStage.setScene(menuScene);
+            playEffectSound("/sound/effect/click.mp3");
+        });
 
         // add the labels, images, and back button to the contributor pane
         contributorPane.getChildren().addAll(contributorLabel, ananImage, ananLabel, jojoImage, jojoLabel, mymyLabel, mymyImage, backButton);
@@ -660,7 +676,10 @@ public class Main extends Application {
         Button backButton = createButton("Back", HEIGHT - 90);
         backButton.setLayoutX(110);
         backButton.setLayoutY(HEIGHT - 90);
-        backButton.setOnAction(event -> primaryStage.setScene(menuScene));
+        backButton.setOnAction(event -> {
+            primaryStage.setScene(menuScene);
+            playEffectSound("/sound/effect/click.mp3");
+        });
 
         // add the labels and back button to the instructions pane
         instructionsPane.getChildren().addAll(instructionLabel, instructionsDetailLabel01, monkeyImageView, backButton);
