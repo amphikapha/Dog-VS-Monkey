@@ -484,6 +484,8 @@ public class Main extends Application {
         menuPane.getChildren().add(getWelcomeLabel());
         menuPane.getChildren().addAll(buttonsContainer);
 
+
+
         return menuPane;
     }
 
@@ -559,9 +561,9 @@ public class Main extends Application {
         jojoLabel.setLayoutY(150 + 10 + 150);
 
         // create a back button to go back to the menu scene
-        Button backButton = createButton("Back", HEIGHT - 100);
+        Button backButton = createButton("Back", HEIGHT - 90);
         backButton.setLayoutX(110);
-        backButton.setLayoutY(HEIGHT - 100);
+        backButton.setLayoutY(HEIGHT - 90);
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
         // add the labels, images, and back button to the contributor pane
@@ -589,23 +591,80 @@ public class Main extends Application {
         instructionLabel.setLayoutY(10);
 
         // create a label for the instructions detail
-        Label instructionsDetailLabel01 = new Label("- WASD or arrow keys = move\n- Space bar = shoot" +
-                "\n\nIn Dog-VS-Monkey, you play as\na monkey shooting down dogs \nmoving toward you. Shoot dogs \nquickly to survive," +
-                "but watch out: \nif a dog reaches the bottom \nedge of the game screen or \nthe boss dog arrives,\nyou'll lose a life. Survive as long as possible!\n" +
-                "You have 20 lives to start with. Good luck!!!\n\n not done instruction detail na ja\n but all of things in the main is done.");
-        instructionsDetailLabel01.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 15));
+        Label instructionsDetailLabel01 = new Label(">> WASD or arrow keys = move\n>> Space bar = shoot" +
+                "\n\nIn Dog-VS-Monkey, you play as a monkey \nshooting down dogs moving toward you.\n" +
+                "If a dog reaches the bottom edge \nof the game screen, you'll lose a life. \n > Survive as long as possible!\n" +
+                " > You have 20 lives to start with. \n > Good luck!!!");
+        instructionsDetailLabel01.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         instructionsDetailLabel01.setLayoutX(0);
-        instructionsDetailLabel01.setLayoutY(20);
-        instructionsDetailLabel01.setPadding(new Insets(30, 30, 30, 30));
+        instructionsDetailLabel01.setLayoutY(40);
+        instructionsDetailLabel01.setPadding(new Insets(20, 20, 20, 20));
+
+        // create an ImageView for the monkey image
+        ImageView monkeyImageView = new ImageView(new Image(getClass().getResource("/pic/monkey_head_red.png").toExternalForm()));
+        monkeyImageView.setFitWidth(50);
+        monkeyImageView.setFitHeight(50);
+        monkeyImageView.setLayoutX(225);
+        monkeyImageView.setLayoutY(55);
+
+        // create ImageViews for the normal dog images and Labels for their details
+        for (int i = 0; i < 3; i++) {
+            ImageView dogImageView = new ImageView(new Image(getClass().getResource("/pic/normalDog0" + (i+1) + ".png").toExternalForm()));
+            dogImageView.setFitWidth(65);
+            dogImageView.setFitHeight(65);
+            dogImageView.setLayoutX(35 + i * 80);
+            dogImageView.setLayoutY(250);
+
+            instructionsPane.getChildren().addAll(dogImageView);
+        }
+        Label normalDogDetailLabel = new Label(">> Normal Dog, Score +10");
+        normalDogDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
+        normalDogDetailLabel.setLayoutX(70);
+        normalDogDetailLabel.setLayoutY(315);
+        instructionsPane.getChildren().addAll(normalDogDetailLabel);
+
+        // create ImageViews for the small dog image and Labels for its details
+        ImageView smallDogImageView = new ImageView(new Image(getClass().getResource("/pic/smallDog.png").toExternalForm()));
+        smallDogImageView.setFitWidth(65);
+        smallDogImageView.setFitHeight(65);
+        smallDogImageView.setLayoutX(35);
+        smallDogImageView.setLayoutY(342);
+
+        Label smallDogDetailLabel = new Label(">> Small Dog, \nScore +50, Lives +1");
+        smallDogDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
+        smallDogDetailLabel.setLayoutX(120);
+        smallDogDetailLabel.setLayoutY(352);
+
+        instructionsPane.getChildren().addAll(smallDogImageView, smallDogDetailLabel);
+
+        // create ImageViews for the boss dog image and Labels for its details
+        ImageView bossDogImageView = new ImageView(new Image(getClass().getResource("/pic/monkey_head_green.png").toExternalForm()));
+        bossDogImageView.setFitWidth(65);
+        bossDogImageView.setFitHeight(65);
+        bossDogImageView.setLayoutX(35);
+        bossDogImageView.setLayoutY(420);
+
+        Label bossDogDetailLabel = new Label(">> Boss Dog (?), \nhas 3 lives, Score +100");
+        bossDogDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
+        bossDogDetailLabel.setLayoutX(120);
+        bossDogDetailLabel.setLayoutY(415);
+
+        Label bossDogDetailLabel2 = new Label("if it reaches the bottom,\nyou will die immediately!!!");
+        bossDogDetailLabel2.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
+        bossDogDetailLabel2.setLayoutX(120);
+        bossDogDetailLabel2.setLayoutY(450);
+        bossDogDetailLabel2.setTextFill(Color.ORANGERED);
+
+        instructionsPane.getChildren().addAll(bossDogImageView, bossDogDetailLabel, bossDogDetailLabel2);
 
         // create a back button to go back to the menu scene
-        Button backButton = createButton("Back", HEIGHT - 100);
+        Button backButton = createButton("Back", HEIGHT - 90);
         backButton.setLayoutX(110);
-        backButton.setLayoutY(HEIGHT - 100);
+        backButton.setLayoutY(HEIGHT - 90);
         backButton.setOnAction(event -> primaryStage.setScene(menuScene));
 
         // add the labels and back button to the instructions pane
-        instructionsPane.getChildren().addAll(instructionLabel, instructionsDetailLabel01, backButton);
+        instructionsPane.getChildren().addAll(instructionLabel, instructionsDetailLabel01, monkeyImageView, backButton);
 
         Scene instructionsScene = new Scene(instructionsPane, WIDTH, HEIGHT);
 
