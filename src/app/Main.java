@@ -401,9 +401,11 @@ public class Main extends Application {
                     monkey.setHasMovedRight(true);
                     break;
                 case S:
+                case DOWN:
                     monkey.setHasMovedBackward(true);
                     break;
                 case W:
+                case UP:
                     monkey.setHasMovedForward(true);
                     break;
                 case SPACE:
@@ -423,9 +425,11 @@ public class Main extends Application {
                     monkey.setHasMovedRight(false);
                     break;
                 case S:
+                case DOWN:
                     monkey.setHasMovedBackward(false);
                     break;
                 case W:
+                case UP:
                     monkey.setHasMovedForward(false);
                     break;
             }
