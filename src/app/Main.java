@@ -24,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -499,6 +498,7 @@ public class Main extends Application {
         button.setOnMouseEntered(event -> {
             button.setTextFill(Color.YELLOW);
             button.setEffect(new Glow());
+            playEffectSound("/sound/effect/hover.wav");
         });
         button.setOnMouseExited(event -> {
             button.setTextFill(Color.WHITE);
@@ -597,7 +597,7 @@ public class Main extends Application {
         instructionsDetailLabel01.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         instructionsDetailLabel01.setLayoutX(0);
         instructionsDetailLabel01.setLayoutY(40);
-        instructionsDetailLabel01.setPadding(new Insets(20, 20, 20, 20));
+        instructionsDetailLabel01.setPadding(new Insets(20, 20, 20, 25));
 
         // create an ImageView for the monkey image
         ImageView monkeyImageView = new ImageView(new Image(getClass().getResource("/pic/character/monkey_head_red.png").toExternalForm()));
@@ -643,7 +643,7 @@ public class Main extends Application {
         bossDogImageView.setLayoutX(35);
         bossDogImageView.setLayoutY(420);
 
-        Label bossDogDetailLabel = new Label(">> Boss Dog (?), \nIt has 3 lives!!! Score +100");
+        Label bossDogDetailLabel = new Label(">> Boss Dog (?), \nIt has 3 lives. Score +100");
         bossDogDetailLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 12));
         bossDogDetailLabel.setLayoutX(120);
         bossDogDetailLabel.setLayoutY(415);
