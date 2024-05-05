@@ -16,7 +16,7 @@ public class BossDog extends Dog {
     public BossDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
         setHealth(3); // Boss dog has to be hit 3 times to die
-        setBossDogImage(new Image(getClass().getResource("/pic/monkey_head_green.png").toExternalForm()));
+        setBossDogImage(new Image(getClass().getResource("/pic/character/monkey_head_green.png").toExternalForm()));
     }
 
     // Method to move the boss dog

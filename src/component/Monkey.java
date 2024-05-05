@@ -22,7 +22,7 @@ public class Monkey extends GameObject {
     // Constructor to create a Monkey object at a given position
     public Monkey(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
-        setMonkeyImage(new Image(getClass().getResource("/pic/monkey_head_red.png").toExternalForm()));
+        setMonkeyImage(new Image(getClass().getResource("/pic/character/monkey_head_red.png").toExternalForm()));
     }
 
     // Method to move the monkey

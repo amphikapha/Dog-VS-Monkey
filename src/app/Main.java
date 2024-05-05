@@ -149,7 +149,7 @@ public class Main extends Application {
                 }
 
                 // draw the background image
-                Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+                Image backgroundImage = new Image(getClass().getResource("/pic/bg/bg_without_logo.png").toExternalForm());
                 gc.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT);
 
                 // update and render all game objects
@@ -441,7 +441,7 @@ public class Main extends Application {
     private Pane createMenu() {
         Pane menuPane = new Pane();
         // set the background image of the menu
-        menuPane.setStyle("-fx-background-image: url('" + getClass().getResource("/pic/bg_menu.png").toExternalForm() + "');");
+        menuPane.setStyle("-fx-background-image: url('" + getClass().getResource("/pic/bg/bg_menu.png").toExternalForm() + "');");
 
         // create a welcome label
         setWelcomeLabel(new Label("Welcome!"));
@@ -485,7 +485,6 @@ public class Main extends Application {
         menuPane.getChildren().addAll(buttonsContainer);
 
 
-
         return menuPane;
     }
 
@@ -513,7 +512,7 @@ public class Main extends Application {
         Pane contributorPane = new Pane();
 
         // set the background image of the contributor pane
-        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg/bg_without_logo.png").toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         contributorPane.setBackground(new Background(background));
 
@@ -525,7 +524,7 @@ public class Main extends Application {
         contributorLabel.setLayoutY(10);
 
         //mymy
-        ImageView mymyImage = new ImageView(new Image(getClass().getResource("/pic/mymy.png").toExternalForm()));
+        ImageView mymyImage = new ImageView(new Image(getClass().getResource("/pic/contributor/mymy.png").toExternalForm()));
         mymyImage.setFitWidth(100);
         mymyImage.setFitHeight(100);
         mymyImage.setLayoutX(100);
@@ -537,7 +536,7 @@ public class Main extends Application {
         mymyLabel.setLayoutY(150 + 10);
 
         //anan
-        ImageView ananImage = new ImageView(new Image(getClass().getResource("/pic/anan.png").toExternalForm()));
+        ImageView ananImage = new ImageView(new Image(getClass().getResource("/pic/contributor/anan.png").toExternalForm()));
         ananImage.setFitWidth(100);
         ananImage.setFitHeight(100);
         ananImage.setLayoutX(100);
@@ -549,7 +548,7 @@ public class Main extends Application {
         ananLabel.setLayoutY(150 + 10 + 300);
 
         //jojo
-        ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/jojo.png").toExternalForm()));
+        ImageView jojoImage = new ImageView(new Image(getClass().getResource("/pic/contributor/jojo.png").toExternalForm()));
         jojoImage.setFitWidth(100);
         jojoImage.setFitHeight(100);
         jojoImage.setLayoutX(100);
@@ -579,7 +578,7 @@ public class Main extends Application {
         Pane instructionsPane = new Pane();
 
         // set the background image of the instructions pane
-        Image backgroundImage = new Image(getClass().getResource("/pic/bg_without_logo.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/pic/bg/bg_without_tree.png").toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         instructionsPane.setBackground(new Background(background));
 
@@ -601,7 +600,7 @@ public class Main extends Application {
         instructionsDetailLabel01.setPadding(new Insets(20, 20, 20, 20));
 
         // create an ImageView for the monkey image
-        ImageView monkeyImageView = new ImageView(new Image(getClass().getResource("/pic/monkey_head_red.png").toExternalForm()));
+        ImageView monkeyImageView = new ImageView(new Image(getClass().getResource("/pic/character/monkey_head_red.png").toExternalForm()));
         monkeyImageView.setFitWidth(50);
         monkeyImageView.setFitHeight(50);
         monkeyImageView.setLayoutX(225);
@@ -609,7 +608,7 @@ public class Main extends Application {
 
         // create ImageViews for the normal dog images and Labels for their details
         for (int i = 0; i < 3; i++) {
-            ImageView dogImageView = new ImageView(new Image(getClass().getResource("/pic/normalDog0" + (i+1) + ".png").toExternalForm()));
+            ImageView dogImageView = new ImageView(new Image(getClass().getResource("/pic/character/normalDog0" + (i + 1) + ".png").toExternalForm()));
             dogImageView.setFitWidth(65);
             dogImageView.setFitHeight(65);
             dogImageView.setLayoutX(35 + i * 80);
@@ -624,7 +623,7 @@ public class Main extends Application {
         instructionsPane.getChildren().addAll(normalDogDetailLabel);
 
         // create ImageViews for the small dog image and Labels for its details
-        ImageView smallDogImageView = new ImageView(new Image(getClass().getResource("/pic/smallDog.png").toExternalForm()));
+        ImageView smallDogImageView = new ImageView(new Image(getClass().getResource("/pic/character/smallDog.png").toExternalForm()));
         smallDogImageView.setFitWidth(65);
         smallDogImageView.setFitHeight(65);
         smallDogImageView.setLayoutX(35);
@@ -638,7 +637,7 @@ public class Main extends Application {
         instructionsPane.getChildren().addAll(smallDogImageView, smallDogDetailLabel);
 
         // create ImageViews for the boss dog image and Labels for its details
-        ImageView bossDogImageView = new ImageView(new Image(getClass().getResource("/pic/monkey_head_green.png").toExternalForm()));
+        ImageView bossDogImageView = new ImageView(new Image(getClass().getResource("/pic/character/monkey_head_green.png").toExternalForm()));
         bossDogImageView.setFitWidth(65);
         bossDogImageView.setFitHeight(65);
         bossDogImageView.setLayoutX(35);

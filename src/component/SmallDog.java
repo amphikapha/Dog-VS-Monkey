@@ -15,7 +15,7 @@ public class SmallDog extends Dog {
     // Constructor to create a SmallDog object at a given position
     public SmallDog(double x, double y) {
         super(x, y, WIDTH, HEIGHT);
-        setSmallDogImage(new Image(getClass().getResource("/pic/smallDog.png").toExternalForm()));
+        setSmallDogImage(new Image(getClass().getResource("/pic/character/smallDog.png").toExternalForm()));
     }
 
     // Method to move the small dog

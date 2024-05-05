@@ -13,7 +13,7 @@ public class NormalDog extends Dog {
     public static final double SPEED = 2; // speed of the normal dog
     private boolean isDead = false; // boolean to check if the normal dog is dead
     private Image normalDogImage; // image of the normal dog
-    private static final String[] imagePaths = {"/pic/normalDog01.png", "/pic/normalDog02.png", "/pic/normalDog03.png"}; // array of image paths for the normal dog
+    private static final String[] imagePaths = {"/pic/character/normalDog01.png", "/pic/character/normalDog02.png", "/pic/character/normalDog03.png"}; // array of image paths for the normal dog
     private static final Random random = new Random(); // random object to generate random numbers
 
     // Constructor to create a NormalDog object at a given position
