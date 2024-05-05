@@ -222,6 +222,8 @@ public class Main extends Application {
                         }
                         pauseButton.setText("Pause");
                         isRunning = false;
+                    } else {
+                        pauseButton.setText("Pause");
                     }
                 }
         );
