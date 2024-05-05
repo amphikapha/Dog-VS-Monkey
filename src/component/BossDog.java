@@ -9,7 +9,7 @@ public class BossDog extends Dog {
     private int health; // Health of the boss dog
     protected static final double WIDTH = 50; // Width of the boss dog
     protected static final double HEIGHT = 50; // Height of the boss dog
-    public static final double SPEED = 0.5; // Speed of the boss dog
+    public static final double SPEED = 1; // Speed of the boss dog
     private Image bossDogImage; // Image of the boss dog
 
     // Constructor to create a BossDog object at a given position

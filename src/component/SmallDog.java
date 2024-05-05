@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 public class SmallDog extends Dog {
     public static final int WIDTH = 30; // Width of the small dog
     public static final int HEIGHT = 30; // Height of the small dog
-    private static final double SPEED = 1.25; // Speed of the small dog
+    private static final double SPEED = 2.25; // Speed of the small dog
     private boolean isDead = false; // Boolean to check if the small dog is dead
     private Image smallDogImage; // Image of the small dog
 

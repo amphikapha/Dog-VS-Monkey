@@ -10,7 +10,7 @@ import java.util.Random;
 public class NormalDog extends Dog {
     protected static final int WIDTH = 40; // width of the normal dog
     protected static final int HEIGHT = 40; // height of the normal dog
-    public static final double SPEED = 1; // speed of the normal dog
+    public static final double SPEED = 2; // speed of the normal dog
     private boolean isDead = false; // boolean to check if the normal dog is dead
     private Image normalDogImage; // image of the normal dog
     private static final String[] imagePaths = {"/pic/normalDog01.png", "/pic/normalDog02.png", "/pic/normalDog03.png"}; // array of image paths for the normal dog
